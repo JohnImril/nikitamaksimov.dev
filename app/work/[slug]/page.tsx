@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { projects, getProject } from "@/content/projects";
-import { projectMetadata } from "@/lib/metadata";
+import { projectMetadata, projectStructuredData } from "@/lib/metadata";
 import { CaseStudyLayout } from "@/components/case-study/case-study-layout";
 
 export function generateStaticParams() {
@@ -21,5 +21,18 @@ export default async function WorkPage({
 }) {
   const project = getProject((await params).slug);
   if (!project) notFound();
-  return <CaseStudyLayout project={project} />;
+  return (
+    <>
+      <CaseStudyLayout project={project} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(projectStructuredData(project)).replace(
+            /</g,
+            "\\u003c",
+          ),
+        }}
+      />
+    </>
+  );
 }

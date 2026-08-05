@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/content/projects";
-import { siteUrl } from "@/lib/metadata";
+import { absoluteUrl, SITE_ORIGIN } from "@/lib/metadata";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: siteUrl, changeFrequency: "monthly", priority: 1 },
+    { url: SITE_ORIGIN, changeFrequency: "monthly", priority: 1 },
     ...projects.map(({ slug }) => ({
-      url: `${siteUrl}/work/${slug}`,
+      url: absoluteUrl(`/work/${slug}`),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

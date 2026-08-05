@@ -2,4 +2,4 @@
 
 Personal portfolio of Nikita Maksimov, Frontend Engineer.
 
-Live: https://nikitamaksimov.dev
+Live: https://www.nikitamaksimov.dev

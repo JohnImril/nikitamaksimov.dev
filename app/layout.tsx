@@ -4,7 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteAnalytics } from "@/lib/analytics";
-import { siteUrl } from "@/lib/metadata";
+import { absoluteUrl, SITE_ORIGIN } from "@/lib/metadata";
 import { profile } from "@/content/profile";
 
 const geist = Geist({
@@ -19,24 +19,24 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
     default: "Nikita Maksimov — Frontend Engineer",
     template: "%s | Nikita Maksimov",
   },
   description:
     "Frontend Engineer with 4.5+ years of experience in React, Next.js, TypeScript, architecture, performance, real-time systems and AI developer tools.",
-  alternates: { canonical: "/" },
+  alternates: { canonical: SITE_ORIGIN },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteUrl,
+    url: SITE_ORIGIN,
     siteName: profile.name,
     title: "Nikita Maksimov — Frontend Engineer",
     description: profile.summary,
     images: [
       {
-        url: "/opengraph-image",
+        url: absoluteUrl("/opengraph-image"),
         width: 1200,
         height: 630,
         alt: "Nikita Maksimov, Frontend Engineer",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Nikita Maksimov — Frontend Engineer",
     description: profile.summary,
-    images: ["/opengraph-image"],
+    images: [absoluteUrl("/opengraph-image")],
   },
   icons: { icon: "/icon.svg" },
 };
@@ -68,7 +68,7 @@ export default function RootLayout({
       "@type": "Person",
       name: profile.name,
       jobTitle: profile.role,
-      url: siteUrl,
+      url: SITE_ORIGIN,
       sameAs: [profile.links.github, profile.links.linkedin],
       address: {
         "@type": "PostalAddress",
@@ -80,7 +80,7 @@ export default function RootLayout({
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: `${profile.name} — Portfolio`,
-      url: siteUrl,
+      url: SITE_ORIGIN,
       author: { "@type": "Person", name: profile.name },
     },
   ];

@@ -49,7 +49,7 @@ export function SiteHeader() {
             target="_blank"
             rel="noreferrer"
           >
-            View LinkedIn
+            LinkedIn
           </a>
         </nav>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const EngineeringSignalMap = dynamic(
   () =>
@@ -11,5 +12,25 @@ const EngineeringSignalMap = dynamic(
 );
 
 export function DynamicSignalMap() {
-  return <EngineeringSignalMap />;
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const windowWithIdleCallback = window as Window & {
+      requestIdleCallback?: (callback: () => void) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    const idleHandle = windowWithIdleCallback.requestIdleCallback?.(
+      () => setReady(true),
+    );
+    const timeoutHandle = window.setTimeout(() => setReady(true), 1200);
+
+    return () => {
+      if (idleHandle !== undefined) {
+        windowWithIdleCallback.cancelIdleCallback?.(idleHandle);
+      }
+      window.clearTimeout(timeoutHandle);
+    };
+  }, []);
+
+  return ready ? <EngineeringSignalMap /> : null;
 }

@@ -245,7 +245,12 @@ p {
   height: 100%;
 }
 .static-signal-map {
-  display: none;
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .static-signal-map:has(+ .engineering-map) {
+    display: none;
+  }
 }
 .map-lines path {
   fill: none;
@@ -539,7 +544,7 @@ dd {
   padding-left: 5px;
 }
 .confidentiality-note {
-  color: #697381;
+  color: #8c97a6;
   font-size: 13px;
   margin-top: 20px;
 }

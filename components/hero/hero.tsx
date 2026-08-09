@@ -6,7 +6,7 @@ import { StaticSignalMap } from "./static-signal-map";
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-map" aria-label="Engineering Signal Map">
+      <div className="hero-map">
         <StaticSignalMap />
         <DynamicSignalMap />
       </div>
@@ -27,7 +27,7 @@ export function Hero() {
             className="button button-secondary"
             href={profile.links.linkedin}
           >
-            View LinkedIn
+            LinkedIn
           </ExternalLink>
         </div>
         <div className="hero-links">

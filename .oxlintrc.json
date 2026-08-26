@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    "typescript",
+    "oxc",
+    "import",
+    "react",
+    "jsx-a11y",
+    "nextjs",
+    "vitest"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": "off",
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "coverage/**",
+    "node_modules/**",
+    "next-env.d.ts",
+    "tsconfig.tsbuildinfo"
+  ],
+  "options": {
+    "typeAware": true,
+    "maxWarnings": 0
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "vitest.config.ts"],
+      "env": {
+        "vitest": true
+      }
+    }
+  ]
+}

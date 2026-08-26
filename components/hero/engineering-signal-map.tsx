@@ -5,8 +5,7 @@ import { useSignalMap } from "./signal-map-context";
 import { animationShouldRun } from "@/lib/motion";
 
 type Point = { x: number; y: number; cluster: number };
-const labels = ["Architecture", "Performance", "Real-time", "AI Systems"];
-const keys = ["architecture", "performance", "realtime", "ai"];
+const keys = ["architecture", "performance", "realtime", "ai"] as const;
 
 function buildPoints(width: number, height: number, mobile: boolean): Point[] {
   const centers = [
@@ -36,11 +35,11 @@ export function EngineeringSignalMap() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return undefined;
     const context = canvas.getContext("2d");
-    if (!context) return;
+    if (!context) return undefined;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (media.matches) return;
+    if (media.matches) return undefined;
     let frame = 0,
       visible = true,
       inViewport = true;
@@ -67,8 +66,8 @@ export function EngineeringSignalMap() {
           if (!(a.cluster === b.cluster || (i % 5 === 0 && j % 5 === 0)))
             continue;
           const isActive =
-            highlighted.includes(keys[a.cluster] as never) ||
-            highlighted.includes(keys[b.cluster] as never);
+            highlighted.includes(keys[a.cluster]) ||
+            highlighted.includes(keys[b.cluster]);
           context.strokeStyle = isActive
             ? "rgba(139,168,255,.68)"
             : "rgba(170,185,210,.18)";
@@ -91,7 +90,7 @@ export function EngineeringSignalMap() {
       }
       points.forEach((point, index) => {
         const isCenter = index % (rect.width < 640 ? 3 : 5) === 0;
-        const isActive = highlighted.includes(keys[point.cluster] as never);
+        const isActive = highlighted.includes(keys[point.cluster]);
         context.fillStyle = isActive
           ? "#c2ceff"
           : isCenter
@@ -109,9 +108,6 @@ export function EngineeringSignalMap() {
             context.arc(point.x, point.y, pulse, 0, Math.PI * 2);
             context.stroke();
           }
-          context.fillStyle = isActive ? "#eef2ff" : "rgba(205,215,235,.72)";
-          context.font = isActive ? "600 12px sans-serif" : "11px sans-serif";
-          context.fillText(labels[point.cluster], point.x + 11, point.y - 12);
         }
       });
       const centers = points.filter(

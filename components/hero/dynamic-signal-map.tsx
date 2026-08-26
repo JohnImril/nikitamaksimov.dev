@@ -19,8 +19,8 @@ export function DynamicSignalMap() {
       requestIdleCallback?: (callback: () => void) => number;
       cancelIdleCallback?: (handle: number) => void;
     };
-    const idleHandle = windowWithIdleCallback.requestIdleCallback?.(
-      () => setReady(true),
+    const idleHandle = windowWithIdleCallback.requestIdleCallback?.(() =>
+      setReady(true),
     );
     const timeoutHandle = window.setTimeout(() => setReady(true), 1200);
 

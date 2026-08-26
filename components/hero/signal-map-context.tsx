@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import type { SignalCluster } from "@/content/projects";
 
 type SignalState = {
@@ -14,11 +20,10 @@ const Context = createContext<SignalState>({
 
 export function SignalMapProvider({ children }: { children: ReactNode }) {
   const [active, setActive] = useState<SignalCluster[]>([]);
-  return (
-    <Context.Provider value={{ active, setActive }}>
-      {children}
-    </Context.Provider>
-  );
+
+  const value = useMemo(() => ({ active, setActive }), [active]);
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
 export function useSignalMap() {

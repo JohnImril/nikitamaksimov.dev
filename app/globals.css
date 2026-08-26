@@ -248,25 +248,45 @@ p {
   display: block;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .static-signal-map:has(+ .engineering-map) {
-    display: none;
+  .static-signal-map:has(+ .engineering-map) .map-lines,
+  .static-signal-map:has(+ .engineering-map) circle {
+    visibility: hidden;
   }
 }
-.map-lines path {
+.map-lines line {
   fill: none;
   stroke: rgba(160, 175, 210, 0.18);
   stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
-.map-orbit {
-  fill: none;
-  stroke: rgba(139, 168, 255, 0.24);
+.map-center {
+  fill: #839bd9;
 }
 .map-node {
-  fill: #6e7f9d;
+  fill: rgba(180, 195, 220, 0.4);
+}
+.map-signal {
+  fill: rgba(177, 164, 255, 0.95);
+  filter: drop-shadow(0 0 4px rgba(139, 168, 255, 0.7));
 }
 .static-signal-map text {
-  fill: #8f9bb1;
-  font: 11px var(--font-mono);
+  fill: rgba(205, 215, 235, 0.72);
+  font: 11px sans-serif;
+}
+.static-signal-map text.map-label-active {
+  fill: #eef2ff;
+  font-weight: 600;
+}
+.map-frame-mobile {
+  display: none;
+}
+@media (max-width: 639px) {
+  .map-frame-desktop {
+    display: none;
+  }
+  .map-frame-mobile {
+    display: block;
+  }
 }
 .section {
   max-width: var(--container);

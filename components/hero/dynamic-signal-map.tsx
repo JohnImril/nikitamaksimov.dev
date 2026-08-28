@@ -1,7 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const signalMapEvent = "signal-map:active";
 
 const EngineeringSignalMap = dynamic(
   () =>
@@ -13,24 +15,27 @@ const EngineeringSignalMap = dynamic(
 
 export function DynamicSignalMap() {
   const [ready, setReady] = useState(false);
+  const triggerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const windowWithIdleCallback = window as Window & {
-      requestIdleCallback?: (callback: () => void) => number;
-      cancelIdleCallback?: (handle: number) => void;
-    };
-    const idleHandle = windowWithIdleCallback.requestIdleCallback?.(() =>
-      setReady(true),
-    );
-    const timeoutHandle = window.setTimeout(() => setReady(true), 1200);
+    const container = triggerRef.current?.parentElement;
+    if (!container) return undefined;
+    const activate = () => setReady(true);
+
+    container.addEventListener("pointerenter", activate, { once: true });
+    container.addEventListener("focusin", activate, { once: true });
+    window.addEventListener(signalMapEvent, activate, { once: true });
 
     return () => {
-      if (idleHandle !== undefined) {
-        windowWithIdleCallback.cancelIdleCallback?.(idleHandle);
-      }
-      window.clearTimeout(timeoutHandle);
+      container.removeEventListener("pointerenter", activate);
+      container.removeEventListener("focusin", activate);
+      window.removeEventListener(signalMapEvent, activate);
     };
   }, []);
 
-  return ready ? <EngineeringSignalMap /> : null;
+  return ready ? (
+    <EngineeringSignalMap />
+  ) : (
+    <span ref={triggerRef} hidden aria-hidden="true" />
+  );
 }

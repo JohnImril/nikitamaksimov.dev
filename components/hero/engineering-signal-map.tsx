@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useSignalMap } from "./signal-map-context";
 import { animationShouldRun } from "@/lib/motion";
 
 type Point = { x: number; y: number; cluster: number };
 const keys = ["architecture", "performance", "realtime", "ai"] as const;
+const signalMapEvent = "signal-map:active";
+
+declare global {
+  interface WindowEventMap {
+    "signal-map:active": CustomEvent<{ clusters: readonly string[] }>;
+  }
+}
 
 function buildPoints(width: number, height: number, mobile: boolean): Point[] {
   const centers = [
@@ -26,12 +32,6 @@ function buildPoints(width: number, height: number, mobile: boolean): Point[] {
 
 export function EngineeringSignalMap() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { active } = useSignalMap();
-  const activeRef = useRef(active);
-
-  useEffect(() => {
-    activeRef.current = active;
-  }, [active]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -44,20 +44,26 @@ export function EngineeringSignalMap() {
       visible = true,
       inViewport = true;
     const start = performance.now();
+    let active: readonly string[] = [];
     let pointer = { x: -1000, y: -1000 };
     let points: Point[] = [];
+    let width = 0;
+    let height = 0;
+    let mobile = false;
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.width = Math.round(rect.width * ratio);
-      canvas.height = Math.round(rect.height * ratio);
+      width = rect.width;
+      height = rect.height;
+      mobile = width < 640;
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      points = buildPoints(rect.width, rect.height, rect.width < 640);
+      points = buildPoints(width, height, mobile);
     };
     const draw = (now: number) => {
-      const rect = canvas.getBoundingClientRect();
-      context.clearRect(0, 0, rect.width, rect.height);
-      const highlighted = activeRef.current;
+      context.clearRect(0, 0, width, height);
+      const highlighted = active;
       context.lineWidth = 1;
       for (let i = 0; i < points.length; i++) {
         const a = points[i];
@@ -89,7 +95,7 @@ export function EngineeringSignalMap() {
         }
       }
       points.forEach((point, index) => {
-        const isCenter = index % (rect.width < 640 ? 3 : 5) === 0;
+        const isCenter = index % (mobile ? 3 : 5) === 0;
         const isActive = highlighted.includes(keys[point.cluster]);
         context.fillStyle = isActive
           ? "#c2ceff"
@@ -110,9 +116,7 @@ export function EngineeringSignalMap() {
           }
         }
       });
-      const centers = points.filter(
-        (_, i) => i % (rect.width < 640 ? 3 : 5) === 0,
-      );
+      const centers = points.filter((_, i) => i % (mobile ? 3 : 5) === 0);
       centers.forEach((a, i) => {
         const b = centers[(i + 1) % centers.length];
         const t = ((now - start) / 4200 + i * 0.23) % 1;
@@ -139,6 +143,9 @@ export function EngineeringSignalMap() {
       const rect = canvas.getBoundingClientRect();
       pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top };
     };
+    const onActiveChange = (event: WindowEventMap[typeof signalMapEvent]) => {
+      active = event.detail.clusters;
+    };
     const onVisibility = () => {
       visible = document.visibilityState === "visible";
       if (visible && inViewport) {
@@ -159,14 +166,17 @@ export function EngineeringSignalMap() {
     resize();
     observer.observe(canvas);
     canvas.addEventListener("pointermove", onPointer, { passive: true });
-    window.addEventListener("resize", resize);
+    window.addEventListener(signalMapEvent, onActiveChange);
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(canvas);
     document.addEventListener("visibilitychange", onVisibility);
     frame = requestAnimationFrame(draw);
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
+      resizeObserver.disconnect();
       canvas.removeEventListener("pointermove", onPointer);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener(signalMapEvent, onActiveChange);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);

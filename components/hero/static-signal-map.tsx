@@ -1,11 +1,6 @@
-"use client";
-
-import { useSignalMap } from "./signal-map-context";
-
 type Point = { x: number; y: number; cluster: number };
 
 const labels = ["Architecture", "Performance", "Real-time", "AI Systems"];
-const keys = ["architecture", "performance", "realtime", "ai"] as const;
 const centers = [
   [0.2, 0.26],
   [0.72, 0.22],
@@ -34,11 +29,9 @@ function buildPoints(spokes: number): Point[] {
 function MapFrame({
   spokes,
   className,
-  active,
 }: {
   spokes: number;
   className: string;
-  active: readonly string[];
 }) {
   const points = buildPoints(spokes);
   const clusterSize = spokes + 1;
@@ -78,15 +71,7 @@ function MapFrame({
               className={isCenter ? "map-center" : "map-node"}
             />
             {isCenter ? (
-              <text
-                x={point.x + 11}
-                y={point.y - 12}
-                className={
-                  active.includes(keys[point.cluster])
-                    ? "map-label-active"
-                    : undefined
-                }
-              >
+              <text x={point.x + 11} y={point.y - 12}>
                 {labels[point.cluster]}
               </text>
             ) : null}
@@ -111,8 +96,6 @@ function MapFrame({
 }
 
 export function StaticSignalMap() {
-  const { active } = useSignalMap();
-
   return (
     <svg
       className="static-signal-map"
@@ -126,8 +109,8 @@ export function StaticSignalMap() {
         Architecture, performance, real-time and AI systems connected as an
         engineering system diagram.
       </desc>
-      <MapFrame spokes={4} className="map-frame-desktop" active={active} />
-      <MapFrame spokes={2} className="map-frame-mobile" active={active} />
+      <MapFrame spokes={4} className="map-frame-desktop" />
+      <MapFrame spokes={2} className="map-frame-mobile" />
     </svg>
   );
 }

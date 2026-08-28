@@ -3,7 +3,8 @@
 import Image from "next/image";
 import type { Project } from "@/content/projects";
 import { ProjectLinks } from "./project-links";
-import { useSignalMap } from "@/components/hero/signal-map-context";
+
+const signalMapEvent = "signal-map:active";
 
 export function ProjectCard({
   project,
@@ -12,7 +13,11 @@ export function ProjectCard({
   project: Project;
   index: number;
 }) {
-  const { setActive } = useSignalMap();
+  const setActive = (clusters: Project["clusters"]) => {
+    window.dispatchEvent(
+      new CustomEvent(signalMapEvent, { detail: { clusters } }),
+    );
+  };
   const activate = () => setActive(project.clusters);
   const reset = () => setActive([]);
   return (

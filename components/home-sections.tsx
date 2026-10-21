@@ -9,19 +9,33 @@ export function AboutSection() {
       id="about"
       aria-labelledby="about-title"
     >
-      <SectionHeading eyebrow="About" title="Complexity made understandable." />
+      <SectionHeading
+        id="about-title"
+        eyebrow="About"
+        title="Complexity made understandable."
+      />
       <div className="prose">
         <p>
-          I enjoy working on frontend systems where interface complexity,
-          performance, architecture and product logic meet. My strongest work
-          usually involves modernizing existing applications, creating clear
-          boundaries around complex state, improving delivery workflows, and
-          making systems easier to understand and maintain.
+          I design clear boundaries around complex business logic, modernize
+          shared libraries and migrate applications to TypeScript incrementally.
+          My commercial work spans high-traffic public platforms, event-driven
+          monitoring, conditional workflows, real-time interfaces and analytics
+          dashboards. Regression tests, performance checks, CI/CD, release
+          planning and rollback strategies help keep changes safe and
+          maintainable.
         </p>
         <p>
-          Alongside commercial development, I build AI-assisted engineering
-          tools and explore browser technologies such as WebAssembly, WebGL and
-          real-time communication.
+          Beyond frontend architecture, I have commercial Node.js experience
+          with REST APIs, business logic, database integrations, authentication,
+          authorization and external services, collaborating across frontend and
+          backend boundaries. I have also integrated AI capabilities into
+          frontend products.
+        </p>
+        <p>
+          Through personal projects, I explore full-stack architecture, other
+          backend languages and frameworks, AI-powered applications and
+          agent-assisted development. I keep responsibility for architecture,
+          validation and testing when working with AI tools.
         </p>
       </div>
     </section>

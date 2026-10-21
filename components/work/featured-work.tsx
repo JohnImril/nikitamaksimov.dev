@@ -6,6 +6,7 @@ export function FeaturedWork() {
   return (
     <section className="section" id="work" aria-labelledby="work-title">
       <SectionHeading
+        id="work-title"
         eyebrow="Selected work"
         title="Systems, not just screens."
         copy="Independent projects with working demos, source code and the engineering decisions behind them."

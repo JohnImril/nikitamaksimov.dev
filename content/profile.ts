@@ -1,13 +1,13 @@
 export const profile = {
   name: "Nikita Maksimov",
-  role: "Frontend Engineer",
+  role: "Senior Frontend Engineer",
   headline:
-    "Frontend Engineer building complex, fast and maintainable web products.",
+    "Senior Frontend Engineer building complex, fast and maintainable web products.",
   summary:
-    "I have 4.5+ years of commercial experience with React, Next.js and TypeScript. I focus on frontend architecture, performance, real-time interfaces and AI-powered developer tools.",
+    "Senior Frontend Engineer with full-stack experience, focused on complex software systems, architecture, performance and maintainability. Working commercially since February 2022, primarily with React, Next.js and TypeScript.",
   location: "Astana, Kazakhstan",
   timezone: "UTC+5",
-  availability: "Open to international remote opportunities.",
+  availability: "Open to international remote opportunities and relocation.",
   email: "john.maks595@gmail.com",
   links: {
     github: "https://github.com/JohnImril",
@@ -21,6 +21,6 @@ export const profile = {
     "Frontend Architecture",
     "Performance",
     "WebSocket",
-    "AI Engineering",
+    "Node.js",
   ],
 } as const;

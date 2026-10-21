@@ -15,7 +15,7 @@ export function Hero() {
           <span className="status-dot" /> {profile.availability}
         </p>
         <h1 id="hero-title">
-          Frontend Engineer building <span>complex, fast and maintainable</span>{" "}
+          {profile.role} building <span>complex, fast and maintainable</span>{" "}
           web products.
         </h1>
         <p className="hero-copy">{profile.summary}</p>

@@ -41,7 +41,7 @@ const projectData = [
     title: "ReviewPilot AI",
     positioning: "AI-assisted pull request review workflow",
     summary:
-      "A Next.js application and GitHub App that converts unified diffs into structured review feedback, file-level risk, line-aware findings, test suggestions, confidence scores and merge recommendations.",
+      "A personal Next.js application and GitHub App exploring structured pull request review. The public demo uses a deterministic mock provider; real LLM analysis requires the optional OpenAI-compatible integration.",
     contribution:
       "Product design, frontend architecture, GitHub integration and evaluation workflow",
     stack: ["Next.js", "TypeScript", "Zod", "GitHub App", "Vitest", "CI"],

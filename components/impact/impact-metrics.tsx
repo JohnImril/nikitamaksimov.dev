@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 const commercialMetrics = [
   {
     value: "≈32%",
-    label: "faster build time",
+    label: "build time reduction",
     detail: "after application modernization",
   },
   {
@@ -13,7 +13,7 @@ const commercialMetrics = [
   },
   {
     value: "≈5s → ≈2s",
-    label: "application loading",
+    label: "Time to Interactive (TTI)",
     detail: "in a transport monitoring platform",
   },
 ] as const;
@@ -35,6 +35,7 @@ export function ImpactMetrics() {
   return (
     <section className="section impact-section" aria-labelledby="impact-title">
       <SectionHeading
+        id="impact-title"
         eyebrow="Engineering impact"
         title="Measured improvements, with context."
         copy="Performance work is most useful when the baseline, intervention and limitation are all visible."

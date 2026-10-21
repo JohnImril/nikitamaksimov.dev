@@ -18,7 +18,7 @@ export function Hero() {
           {profile.role} building <span>complex, fast and maintainable</span>{" "}
           web products.
         </h1>
-        <p className="hero-copy">{profile.summary}</p>
+        <p className="hero-copy">{profile.heroDescription}</p>
         <div className="hero-actions">
           <a className="button" href="#work">
             View selected work
@@ -32,7 +32,6 @@ export function Hero() {
         </div>
         <div className="hero-links">
           <ExternalLink href={profile.links.github}>GitHub</ExternalLink>
-          <ExternalLink href={profile.links.linkedin}>LinkedIn</ExternalLink>
         </div>
       </div>
       <p className="technology-line">{profile.technologies.join(" · ")}</p>

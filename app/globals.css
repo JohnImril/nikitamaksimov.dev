@@ -216,7 +216,7 @@ p {
   z-index: 2;
   margin: 0;
   padding-top: 38px;
-  color: #747e8c;
+  color: #8993a1;
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.035em;
@@ -228,7 +228,7 @@ p {
   height: 94%;
   right: -9%;
   top: 2%;
-  opacity: 0.92;
+  --map-opacity: 0.92;
   mask-image: linear-gradient(
     to right,
     transparent 0,
@@ -246,6 +246,11 @@ p {
 }
 .static-signal-map {
   display: block;
+}
+.engineering-map,
+.static-signal-map .map-lines,
+.static-signal-map circle {
+  opacity: var(--map-opacity);
 }
 @media (prefers-reduced-motion: no-preference) {
   .static-signal-map:has(+ .engineering-map) .map-lines,
@@ -790,7 +795,7 @@ dd {
   .hero-map {
     width: 75%;
     right: -25%;
-    opacity: 0.6;
+    --map-opacity: 0.6;
   }
   .section-heading,
   .experience-list article,
@@ -872,7 +877,7 @@ dd {
     height: 55%;
     right: -34%;
     top: 25%;
-    opacity: 0.35;
+    --map-opacity: 0.35;
   }
   .technology-line {
     padding-top: 48px;

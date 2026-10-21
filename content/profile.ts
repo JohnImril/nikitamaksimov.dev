@@ -5,6 +5,8 @@ export const profile = {
     "Senior Frontend Engineer building complex, fast and maintainable web products.",
   summary:
     "Senior Frontend Engineer with full-stack experience, focused on complex software systems, architecture, performance and maintainability. Working commercially since February 2022, primarily with React, Next.js and TypeScript.",
+  heroDescription:
+    "I build and modernize complex software systems, combining deep frontend expertise with commercial Node.js experience. My focus is on architecture, performance, and maintainability.",
   location: "Astana, Kazakhstan",
   timezone: "UTC+5",
   availability: "Open to international remote opportunities and relocation.",

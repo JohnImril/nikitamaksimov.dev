@@ -9,6 +9,7 @@ export function ExperienceSection() {
       aria-labelledby="experience-title"
     >
       <SectionHeading
+        id="experience-title"
         eyebrow="Experience"
         title="Modernization under real product constraints."
       />

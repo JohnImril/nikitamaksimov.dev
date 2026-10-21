@@ -19,7 +19,7 @@ function ListSection({ title, items }: { title: string; items: string[] }) {
 
 export function CaseStudyLayout({ project }: { project: Project }) {
   return (
-    <main className="case-study">
+    <main id="main-content" className="case-study">
       <header className="case-hero">
         <Link className="back-link" href="/#work">
           ← Selected work

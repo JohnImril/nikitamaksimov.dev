@@ -21,31 +21,30 @@ const mono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "Nikita Maksimov — Frontend Engineer",
+    default: `${profile.name} \u2014 ${profile.role}`,
     template: "%s | Nikita Maksimov",
   },
-  description:
-    "Frontend Engineer with 4.5+ years of experience in React, Next.js, TypeScript, architecture, performance, real-time systems and AI developer tools.",
+  description: profile.summary,
   alternates: { canonical: SITE_ORIGIN },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: SITE_ORIGIN,
     siteName: profile.name,
-    title: "Nikita Maksimov — Frontend Engineer",
+    title: `${profile.name} \u2014 ${profile.role}`,
     description: profile.summary,
     images: [
       {
         url: absoluteUrl("/opengraph-image"),
         width: 1200,
         height: 630,
-        alt: "Nikita Maksimov, Frontend Engineer",
+        alt: `${profile.name}, ${profile.role}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nikita Maksimov — Frontend Engineer",
+    title: `${profile.name} \u2014 ${profile.role}`,
     description: profile.summary,
     images: [absoluteUrl("/opengraph-image")],
   },

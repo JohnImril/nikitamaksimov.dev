@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-export const alt = "Nikita Maksimov — Frontend Engineer";
+import { profile } from "@/content/profile";
+export const alt = `${profile.name} \u2014 ${profile.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default function Image() {
@@ -40,7 +41,7 @@ export default function Image() {
             textTransform: "uppercase",
           }}
         >
-          Frontend Engineer
+          {profile.role}
         </div>
         <div
           style={{
@@ -54,8 +55,7 @@ export default function Image() {
         </div>
       </div>
       <div style={{ color: "#98a2b3", fontSize: 22 }}>
-        React · Next.js · TypeScript · Architecture · Performance · AI
-        Engineering
+        React / Next.js / TypeScript / Node.js / Architecture / Performance
       </div>
     </div>,
     size,

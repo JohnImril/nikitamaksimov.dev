@@ -8,7 +8,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DynamicSignalMap } from "./dynamic-signal-map";
+import { DynamicSculpture } from "./dynamic-sculpture";
 
 const motion = vi.hoisted(() => ({
   start: vi.fn<() => void>(),
@@ -16,8 +16,10 @@ const motion = vi.hoisted(() => ({
   reset: vi.fn<() => void>(),
   dispose: vi.fn<() => void>(),
 }));
-const enhance = vi.hoisted(() => vi.fn<() => typeof motion>());
-vi.mock("./engineering-signal-map", () => ({ enhanceSignalMap: enhance }));
+const enhance = vi.hoisted(() =>
+  vi.fn<() => typeof motion | Promise<typeof motion>>(),
+);
+vi.mock("./engineering-sculpture", () => ({ enhanceSculpture: enhance }));
 
 let intersect: (entries: { isIntersecting: boolean }[]) => void;
 let media: EventTarget & { matches: boolean };
@@ -26,7 +28,7 @@ const show = () => act(() => intersect([{ isIntersecting: true }]));
 const renderMap = () =>
   render(
     createElement(
-      DynamicSignalMap,
+      DynamicSculpture,
       null,
       createElement("p", null, "Static system diagram"),
     ),
@@ -61,7 +63,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("signal map motion lifecycle", () => {
+describe("sculpture motion lifecycle", () => {
   it("starts on visibility without requiring a pointer and cleans up on unmount", async () => {
     const view = renderMap();
     expect(enhance).not.toHaveBeenCalled();
@@ -91,6 +93,22 @@ describe("signal map motion lifecycle", () => {
     expect(motion.stop).toHaveBeenCalled();
     expect(motion.reset).toHaveBeenCalledOnce();
     expect(screen.queryByRole("button")).toBeNull();
+  });
+
+  it("does not initialize WebGL if motion is disabled while its chunk is loading", async () => {
+    renderMap();
+    show();
+    act(() => {
+      media.matches = true;
+      media.dispatchEvent(new Event("change"));
+    });
+    await act(async () => {});
+    expect(enhance).not.toHaveBeenCalled();
+    act(() => {
+      media.matches = false;
+      media.dispatchEvent(new Event("change"));
+    });
+    await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
   });
 
   it("stops offscreen and in hidden tabs, then resumes the existing controller", async () => {
@@ -138,9 +156,47 @@ describe("signal map motion lifecycle", () => {
     show();
     await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
     expect(
-      view.container.querySelector(".signal-map")?.getAttribute("data-motion"),
+      view.container
+        .querySelector(".kinetic-sculpture")
+        ?.getAttribute("data-motion"),
     ).toBe("static");
     expect(screen.getByText("Static system diagram")).toBeTruthy();
     expect(screen.queryByRole("button")).toBeNull();
+  });
+
+  it("disposes a renderer that finishes warming up after unmount", async () => {
+    let complete: (controller: typeof motion) => void = () => {};
+    enhance.mockReturnValueOnce(
+      new Promise((resolve) => {
+        complete = resolve;
+      }),
+    );
+    const view = renderMap();
+    show();
+    await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
+    view.unmount();
+    await act(async () => complete(motion));
+    expect(motion.dispose).toHaveBeenCalledOnce();
+    expect(motion.start).not.toHaveBeenCalled();
+  });
+
+  it("keeps a warmed renderer stopped if motion was disabled during initialization", async () => {
+    let complete: (controller: typeof motion) => void = () => {};
+    enhance.mockReturnValueOnce(
+      new Promise((resolve) => {
+        complete = resolve;
+      }),
+    );
+    renderMap();
+    show();
+    await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
+    act(() => {
+      media.matches = true;
+      media.dispatchEvent(new Event("change"));
+    });
+    await act(async () => complete(motion));
+    expect(motion.start).not.toHaveBeenCalled();
+    expect(motion.stop).toHaveBeenCalled();
+    expect(motion.reset).toHaveBeenCalled();
   });
 });

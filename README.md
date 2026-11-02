@@ -9,6 +9,7 @@ Live: https://www.nikitamaksimov.dev
 ## Stack and architecture
 
 - Next.js App Router, React and TypeScript
+- Three.js for the lazy-loaded kinetic hero sculpture
 - Tailwind CSS and custom styles in `app/globals.css`
 - Zod for project content validation
 - Vitest, Testing Library, Oxlint and Prettier for quality checks
@@ -17,15 +18,23 @@ Live: https://www.nikitamaksimov.dev
 `content/profile.ts`, `content/experience.ts` and `content/projects.ts` hold the
 portfolio data. `app/page.tsx` composes the homepage from section components.
 `app/work/[slug]/page.tsx` generates project case studies from the validated data.
-The hero renders a complete static SVG signal map on the server. A separate,
-lazy-loaded enhancement adds drifting geometry, traveling signals and pointer
-response automatically while the illustration is visible and motion is allowed.
-It pauses offscreen, in hidden tabs and with its pause control; changes to the
-system reduced-motion setting restore the static illustration immediately.
-Animation loading never gates the hero text or actions. Project cards and case
-studies render on the server. The homepage connects four engineering strengths
-to commercial examples and public projects, with Node.js and AI scope described
-separately. Shared styles support reduced-motion preferences.
+The hero serves a rendered image of its assembled sculpture immediately. A
+separate, lazy-loaded Three.js scene animates ten beveled modules through a
+14-second opening, cassette exchange and reassembly. The two cassette designs
+alternate between cycles without resetting the visible object. An illuminated
+backbone stays active during the exchange. Pointer tilt and module hover are
+secondary to the automatic choreography. Geometry, lighting and the studio
+environment are procedural; no external models or environment textures load.
+
+The scene pauses offscreen, in hidden tabs and with its pause control. System
+reduced-motion changes restore the assembled pose; no-JS, failed-chunk and WebGL
+fallbacks retain `public/hero/sculpture-rest.webp`, rendered from the same camera
+and lighting. Regenerate that image when changing the model or its lighting.
+The mobile layout does not initialize WebGL. Animation loading never gates the
+hero text or actions. Project cards and case studies render on the server. The
+homepage connects four engineering strengths to commercial examples and public
+projects, with Node.js and AI scope described separately. Shared styles support
+reduced-motion preferences.
 
 `lib/metadata.ts` owns the canonical origin and case-study metadata. The root
 layout provides social metadata and Person/WebSite structured data. Metadata
@@ -57,7 +66,8 @@ npm run build
 ```
 
 Use `npm run format` to apply formatting intentionally. Tests cover content
-validation, metadata routes and motion behavior. Review narrow and wide layouts,
+validation, metadata routes, motion behavior and choreography continuity. Review
+narrow and wide layouts,
 keyboard navigation, reduced motion, case-study navigation and external links
 when changing UI. GitHub Actions runs the checks above after `npm ci` for pushes
 and pull requests targeting `main`.

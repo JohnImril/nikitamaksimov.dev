@@ -1,6 +1,6 @@
 import { profile } from "@/content/profile";
-import { DynamicSignalMap } from "./dynamic-signal-map";
-import { StaticSignalMap } from "./static-signal-map";
+import { DynamicSculpture } from "./dynamic-sculpture";
+import { StaticSculpture } from "./static-sculpture";
 
 export function Hero() {
   return (
@@ -27,10 +27,10 @@ export function Hero() {
           Open to remote roles & relocation
         </p>
       </div>
-      <div className="hero-map">
-        <DynamicSignalMap>
-          <StaticSignalMap />
-        </DynamicSignalMap>
+      <div className="hero-visual">
+        <DynamicSculpture>
+          <StaticSculpture />
+        </DynamicSculpture>
       </div>
     </section>
   );

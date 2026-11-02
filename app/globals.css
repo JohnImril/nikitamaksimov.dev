@@ -221,7 +221,7 @@ h3 {
   color: var(--muted);
   font-size: 15px;
 }
-.hero-map {
+.hero-visual {
   position: relative;
   min-width: 0;
   aspect-ratio: 1;
@@ -232,52 +232,33 @@ h3 {
     transparent 72%
   );
 }
-.signal-map {
+.kinetic-sculpture {
   position: relative;
   width: 100%;
   height: 100%;
 }
-.static-signal-map {
+.sculpture-still {
   display: block;
   width: 100%;
   height: 100%;
 }
-.map-lines path {
-  stroke: #b5b4ed;
-  stroke-opacity: 0.42;
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-}
-.map-orbits {
-  stroke: #a19bd8;
-  stroke-opacity: 0.22;
-  stroke-width: 1;
-}
-.map-facets {
-  fill: url(#signal-facet);
-}
-.map-node {
-  fill: #a9abd6;
-}
-.map-hub {
-  fill: #e0d9ff;
-}
-.map-node-halo {
-  fill: url(#signal-glow);
-}
-.map-labels {
-  fill: #b9c1d6;
-  font:
-    19px var(--font-sans),
-    sans-serif;
-}
-.map-core-label {
-  fill: #e5dfff;
-  font-size: 23px;
-  font-weight: 550;
-}
-.map-motion-control {
+.sculpture-canvas {
   position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.kinetic-sculpture[data-renderer="webgl"] .sculpture-canvas {
+  opacity: 1;
+}
+.kinetic-sculpture[data-renderer="webgl"] .sculpture-still {
+  opacity: 0;
+}
+.sculpture-motion-control {
+  position: absolute;
+  z-index: 2;
   right: 24px;
   bottom: 0;
   display: flex;
@@ -293,7 +274,7 @@ h3 {
     sans-serif;
   cursor: pointer;
 }
-.map-motion-control:hover {
+.sculpture-motion-control:hover {
   color: var(--text);
 }
 .section {
@@ -1027,7 +1008,7 @@ details[open] summary {
   .hero-content {
     max-width: 760px;
   }
-  .hero-map {
+  .hero-visual {
     display: none;
   }
   .hero h1 {

@@ -9,6 +9,7 @@ Live: https://www.nikitamaksimov.dev
 ## Stack and architecture
 
 - Next.js App Router, React and TypeScript
+- Three.js for the lazy-loaded displaced hero sphere
 - Tailwind CSS and custom styles in `app/globals.css`
 - Zod for project content validation
 - Vitest, Testing Library, Oxlint and Prettier for quality checks
@@ -17,10 +18,30 @@ Live: https://www.nikitamaksimov.dev
 `content/profile.ts`, `content/experience.ts` and `content/projects.ts` hold the
 portfolio data. `app/page.tsx` composes the homepage from section components.
 `app/work/[slug]/page.tsx` generates project case studies from the validated data.
-The hero uses a static signal map; project cards and case studies render on the
-server. The homepage connects four engineering strengths to commercial examples
-and public projects, with Node.js and AI scope described separately. Shared
-styles support reduced-motion preferences.
+The hero uses [Animated Displaced Sphere by Pavel Mazhuga / Codrops](https://github.com/pavel-mazhuga/codrops-tutorial-distorted-sphere-custom-material),
+from source commit `83bb3d2639460e4a5c478e23414356957968a8d8`. Its original
+vertex/fragment shaders, 200-subdivision icosahedron, finite-difference normals,
+physical material, ambient/directional light and 1.1 animation speed are retained.
+Three.js is pinned to the original r165 to preserve its lighting and iridescence.
+The GLSL uses a small `onBeforeCompile` bridge in place of the demo's React Three
+Fiber / CustomShaderMaterial wrapper; no demo UI or orbit controls are loaded.
+Only framing, a transparent background and the lifecycle integration differ.
+The full original MIT notice is distributed in
+`public/hero/displaced-sphere.LICENSE.txt`.
+
+The sphere is a separate, lazy-loaded enhancement. Its geometry is constructed in
+a worker so setup does not block the page. A matching transparent rendered still
+is served immediately, independently of the Three.js chunk, and retained until
+shaders and the first frame are ready. Regenerate
+`public/hero/displaced-sphere-rest.webp` from the renderer at time zero when
+changing the scene. The shader clock pauses offscreen, in hidden tabs and with
+the pause control. System reduced-motion changes restore the resting pose;
+no-JS, failed-chunk, worker and WebGL fallbacks retain the still. The mobile layout
+does not initialize WebGL. Animation loading never gates the hero text or actions.
+Project cards and case studies render on the server. The
+homepage connects four engineering strengths to commercial examples and public
+projects, with Node.js and AI scope described separately. Shared styles support
+reduced-motion preferences.
 
 `lib/metadata.ts` owns the canonical origin and case-study metadata. The root
 layout provides social metadata and Person/WebSite structured data. Metadata
@@ -52,8 +73,8 @@ npm run build
 ```
 
 Use `npm run format` to apply formatting intentionally. Tests cover content
-validation, metadata routes and motion behavior. Review narrow and wide layouts,
-keyboard navigation, reduced motion, case-study navigation and external links
+validation, metadata routes and motion lifecycle behavior. Review narrow and wide
+layouts, keyboard navigation, reduced motion, case-study navigation and external links
 when changing UI. GitHub Actions runs the checks above after `npm ci` for pushes
 and pull requests targeting `main`.
 

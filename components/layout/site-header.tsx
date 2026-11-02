@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/content/profile";
+import { ExternalLink } from "@/components/shared/external-link";
 
 const navigation = [
   ["Strengths", "/#strengths"],
   ["Work", "/#work"],
   ["Experience", "/#experience"],
-  ["Approach", "/#about"],
   ["Contact", "/#contact"],
 ] as const;
 
@@ -57,6 +57,10 @@ export function SiteHeader() {
               {label}
             </Link>
           ))}
+          <div className="nav-profiles" aria-label="Professional profiles">
+            <ExternalLink href={profile.links.github}>GitHub</ExternalLink>
+            <ExternalLink href={profile.links.linkedin}>LinkedIn</ExternalLink>
+          </div>
           <a className="button button-small" href={`mailto:${profile.email}`}>
             Email me
           </a>

@@ -1,121 +1,115 @@
-type Point = { x: number; y: number; cluster: number };
-
-const labels = [
-  "Module boundaries",
-  "Performance",
-  "Live UI state",
-  "API contracts",
-];
-const centers = [
-  [0.2, 0.26],
-  [0.72, 0.22],
-  [0.3, 0.72],
-  [0.76, 0.7],
-] as const;
-
-function coordinate(value: number) {
-  return Math.round(value * 1000) / 1000;
-}
-
-function buildPoints(spokes: number): Point[] {
-  return centers.flatMap(([cx, cy], cluster) =>
-    Array.from({ length: spokes + 1 }, (_, index) => ({
-      x: coordinate(
-        (cx + (index ? Math.cos(index * 2.1 + cluster) * 0.085 : 0)) * 1000,
-      ),
-      y: coordinate(
-        (cy + (index ? Math.sin(index * 2.1 + cluster) * 0.11 : 0)) * 1000,
-      ),
-      cluster,
-    })),
-  );
-}
-
-function MapFrame({
-  spokes,
-  className,
-}: {
-  spokes: number;
-  className: string;
-}) {
-  const points = buildPoints(spokes);
-  const clusterSize = spokes + 1;
-  const clusterCenters = points.filter((_, index) => index % clusterSize === 0);
-
-  return (
-    <g className={className}>
-      <g className="map-lines">
-        {points.flatMap((point, index) =>
-          points.slice(index + 1).flatMap((otherPoint, offset) => {
-            const otherIndex = index + offset + 1;
-            if (
-              point.cluster !== otherPoint.cluster &&
-              !(index % clusterSize === 0 && otherIndex % clusterSize === 0)
-            )
-              return [];
-            return (
-              <line
-                key={`${index}-${otherIndex}`}
-                x1={point.x}
-                y1={point.y}
-                x2={otherPoint.x}
-                y2={otherPoint.y}
-              />
-            );
-          }),
-        )}
-      </g>
-      {points.map((point, index) => {
-        const isCenter = index % clusterSize === 0;
-        return (
-          <g key={`${point.cluster}-${point.x}-${point.y}`}>
-            <circle
-              cx={point.x}
-              cy={point.y}
-              r={isCenter ? 3.5 : 1.8}
-              className={isCenter ? "map-center" : "map-node"}
-            />
-            {isCenter ? (
-              <text x={point.x + 11} y={point.y - 12}>
-                {labels[point.cluster]}
-              </text>
-            ) : null}
-          </g>
-        );
-      })}
-      {clusterCenters.map((point, index) => {
-        const next = clusterCenters[(index + 1) % clusterCenters.length];
-        const progress = index * 0.23;
-        return (
-          <circle
-            key={`signal-${point.cluster}`}
-            cx={coordinate(point.x + (next.x - point.x) * progress)}
-            cy={coordinate(point.y + (next.y - point.y) * progress)}
-            r="2.8"
-            className="map-signal"
-          />
-        );
-      })}
-    </g>
-  );
-}
+import {
+  connections,
+  facets,
+  nodes,
+  signalPosition,
+} from "./signal-map-geometry";
 
 export function StaticSignalMap() {
   return (
     <svg
       className="static-signal-map"
-      viewBox="0 0 1000 1000"
-      preserveAspectRatio="xMidYMid meet"
+      viewBox="0 0 720 720"
       role="img"
       aria-labelledby="signal-title signal-description"
     >
       <title id="signal-title">Connected frontend concerns</title>
       <desc id="signal-description">
-        Module boundaries, performance, live interface state and API contracts
-        connected in a frontend system. A conceptual illustration.
+        An interconnected, three-dimensional system of module boundaries,
+        performance, live interface state and API contracts. A conceptual
+        illustration, with moving signals when motion is enabled.
       </desc>
-      <MapFrame spokes={4} className="map-frame-desktop" />
-      <MapFrame spokes={2} className="map-frame-mobile" />
+      <defs>
+        <radialGradient id="signal-glow">
+          <stop stopColor="#dfd6ff" stopOpacity="0.65" />
+          <stop offset="1" stopColor="#b6a5ff" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="signal-facet" x2="1" y2="1">
+          <stop stopColor="#d1c4ff" stopOpacity="0.19" />
+          <stop offset="1" stopColor="#8c9eff" stopOpacity="0.015" />
+        </linearGradient>
+      </defs>
+      <g className="map-orbits" fill="none">
+        <ellipse
+          cx="360"
+          cy="360"
+          rx="281"
+          ry="231"
+          transform="rotate(-28 360 360)"
+        />
+        <ellipse
+          cx="360"
+          cy="360"
+          rx="289"
+          ry="107"
+          transform="rotate(-38 360 360)"
+        />
+        <ellipse
+          cx="360"
+          cy="360"
+          rx="279"
+          ry="100"
+          transform="rotate(53 360 360)"
+        />
+      </g>
+      <g className="map-facets">
+        {facets.map((facet) => (
+          <polygon
+            key={facet.join("-")}
+            points={facet
+              .map((id) => `${nodes[id].x},${nodes[id].y}`)
+              .join(" ")}
+          />
+        ))}
+      </g>
+      <g className="map-lines" fill="none">
+        {connections.map(([a, b]) => (
+          <path
+            key={`${a}-${b}`}
+            d={`M${nodes[a].x},${nodes[a].y} Q${(nodes[a].x + nodes[b].x) / 2},${(nodes[a].y + nodes[b].y) / 2} ${nodes[b].x},${nodes[b].y}`}
+          />
+        ))}
+      </g>
+      <g className="map-nodes">
+        {nodes.map((node) => (
+          <g
+            key={`${node.cluster}-${node.x}-${node.y}`}
+            className={node.hub ? "map-hub" : "map-node"}
+            transform={`translate(${node.x} ${node.y})`}
+          >
+            {node.hub ? <circle r="18" className="map-node-halo" /> : null}
+            <circle r={node.hub ? 4.5 : 2.5} />
+          </g>
+        ))}
+      </g>
+      <g className="map-signals">
+        {Array.from({ length: 8 }, (_, index) => {
+          const point = signalPosition(index, 0);
+          return (
+            <g key={index} transform={`translate(${point.x} ${point.y})`}>
+              <circle r="15" fill="url(#signal-glow)" />
+              <circle r="3.2" fill="#e5ddff" />
+            </g>
+          );
+        })}
+      </g>
+      <g className="map-labels">
+        <text x="72" y="112">
+          Architecture
+        </text>
+        <text x="500" y="144">
+          Performance
+        </text>
+        <text x="36" y="604">
+          Live UI state
+        </text>
+        <text x="478" y="660">
+          API contracts
+        </text>
+        <text x="360" y="369" textAnchor="middle" className="map-core-label">
+          Frontend
+        </text>
+      </g>
     </svg>
   );
 }

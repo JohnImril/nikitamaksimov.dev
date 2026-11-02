@@ -3,31 +3,31 @@ import { SectionHeading } from "@/components/shared/section-heading";
 
 const strengths = [
   {
-    title: "Modernize a product in use",
+    title: "Product evolution",
     description:
-      "Evolve legacy code and shared libraries across applications with incremental migrations, regression checks and a plan for rollback.",
-    proof: "Commercial example: shared library migrations",
+      "Modernize live products through staged migrations, regression checks and a clear path back.",
+    proof: "Commercial migrations",
     href: "/#commercial-modernization",
   },
   {
-    title: "Organize complex interface state",
+    title: "Complex interfaces",
     description:
-      "Make states, transitions and data flow understandable in WebSocket interfaces, Leaflet monitoring tools and JointJS diagram editors.",
-    proof: "Personal example: Fleet Route Monitor",
+      "Make real-time data, state and transitions understandable in monitoring tools and visual editors.",
+    proof: "Fleet Route Monitor",
     href: "/work/fleet-route-monitor",
   },
   {
-    title: "Improve loading and delivery",
+    title: "Performance",
     description:
-      "Work on the code, dependencies and build tooling behind a slow product. Commercial results include approximately 32% shorter builds.",
-    proof: "See three separate performance results",
+      "Improve loading, client delivery and build tooling. Commercial results include ≈32% shorter builds.",
+    proof: "Commercial results",
     href: "/#commercial-performance",
   },
   {
-    title: "Connect the UI to the whole workflow",
+    title: "System thinking",
     description:
-      "Use commercial Node.js experience with APIs, business logic, databases and authorization to reason across frontend and backend boundaries.",
-    proof: "Commercial scope and personal explorations",
+      "Connect UI decisions to APIs, data and authorization, informed by commercial Node.js experience.",
+    proof: "Beyond the frontend",
     href: "/#beyond-frontend",
   },
 ] as const;
@@ -41,18 +41,15 @@ export function EngineeringStrengths() {
     >
       <SectionHeading
         id="strengths-title"
-        eyebrow="Engineering strengths"
+        eyebrow="Strengths"
         title="What you can trust me with."
       />
       <div className="strengths-grid">
-        {strengths.map((strength, index) => (
+        {strengths.map((strength) => (
           <article key={strength.title}>
-            <span className="item-number" aria-hidden="true">
-              0{index + 1}
-            </span>
             <h3>{strength.title}</h3>
             <p>{strength.description}</p>
-            <Link className="text-link" href={strength.href}>
+            <Link className="strength-proof" href={strength.href}>
               {strength.proof} <span aria-hidden="true">→</span>
             </Link>
           </article>

@@ -17,10 +17,15 @@ Live: https://www.nikitamaksimov.dev
 `content/profile.ts`, `content/experience.ts` and `content/projects.ts` hold the
 portfolio data. `app/page.tsx` composes the homepage from section components.
 `app/work/[slug]/page.tsx` generates project case studies from the validated data.
-The hero uses a static signal map; project cards and case studies render on the
-server. The homepage connects four engineering strengths to commercial examples
-and public projects, with Node.js and AI scope described separately. Shared
-styles support reduced-motion preferences.
+The hero renders a complete static SVG signal map on the server. A separate,
+lazy-loaded enhancement adds drifting geometry, traveling signals and pointer
+response automatically while the illustration is visible and motion is allowed.
+It pauses offscreen, in hidden tabs and with its pause control; changes to the
+system reduced-motion setting restore the static illustration immediately.
+Animation loading never gates the hero text or actions. Project cards and case
+studies render on the server. The homepage connects four engineering strengths
+to commercial examples and public projects, with Node.js and AI scope described
+separately. Shared styles support reduced-motion preferences.
 
 `lib/metadata.ts` owns the canonical origin and case-study metadata. The root
 layout provides social metadata and Person/WebSite structured data. Metadata

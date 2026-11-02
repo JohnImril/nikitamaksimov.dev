@@ -1,7 +1,7 @@
 import Link from "next/link";
 export default function NotFound() {
   return (
-    <main id="main-content" className="not-found">
+    <main id="main-content" className="not-found" tabIndex={-1}>
       <p className="eyebrow">404 / Route not found</p>
       <h1>This page is outside the map.</h1>
       <p>The requested route does not exist or may have moved.</p>

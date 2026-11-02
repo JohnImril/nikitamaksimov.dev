@@ -1,6 +1,11 @@
 type Point = { x: number; y: number; cluster: number };
 
-const labels = ["Architecture", "Performance", "Real-time", "AI Systems"];
+const labels = [
+  "Module boundaries",
+  "Performance",
+  "Live UI state",
+  "API contracts",
+];
 const centers = [
   [0.2, 0.26],
   [0.72, 0.22],
@@ -100,14 +105,14 @@ export function StaticSignalMap() {
     <svg
       className="static-signal-map"
       viewBox="0 0 1000 1000"
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-labelledby="signal-title signal-description"
     >
-      <title id="signal-title">Engineering Signal Map</title>
+      <title id="signal-title">Connected frontend concerns</title>
       <desc id="signal-description">
-        Architecture, performance, real-time and AI systems connected as an
-        engineering system diagram.
+        Module boundaries, performance, live interface state and API contracts
+        connected in a frontend system. A conceptual illustration.
       </desc>
       <MapFrame spokes={4} className="map-frame-desktop" />
       <MapFrame spokes={2} className="map-frame-mobile" />

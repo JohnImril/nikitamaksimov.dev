@@ -1,19 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "@/content/profile";
 
 const navigation = [
+  ["Strengths", "/#strengths"],
   ["Work", "/#work"],
   ["Experience", "/#experience"],
-  ["About", "/#about"],
+  ["Approach", "/#about"],
   ["Contact", "/#contact"],
 ] as const;
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      menuRef.current?.focus();
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
 
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 16);
@@ -30,6 +43,7 @@ export function SiteHeader() {
         </Link>
         <button
           className="menu-button"
+          ref={menuRef}
           type="button"
           aria-expanded={open}
           aria-controls="site-navigation"
@@ -43,13 +57,8 @@ export function SiteHeader() {
               {label}
             </Link>
           ))}
-          <a
-            className="button button-small"
-            href={profile.links.linkedin}
-            target="_blank"
-            rel="noreferrer"
-          >
-            LinkedIn
+          <a className="button button-small" href={`mailto:${profile.email}`}>
+            Email me
           </a>
         </nav>
       </div>

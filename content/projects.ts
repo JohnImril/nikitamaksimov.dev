@@ -9,11 +9,35 @@ export const clusterNames = [
 export type SignalCluster = (typeof clusterNames)[number];
 
 const projectSchema = z.object({
+  order: z.number().int(),
   slug: z.string().min(1),
   title: z.string().min(1),
   positioning: z.string().min(1),
   summary: z.string().min(1),
   contribution: z.string().min(1),
+  kind: z.string().min(1),
+  stage: z.string().min(1),
+  scope: z.string().min(1),
+  inspection: z.object({
+    demo: z.string().min(1),
+    source: z.string().min(1),
+    sourceUrl: z.string().url(),
+  }),
+  headings: z.object({
+    challenge: z.string(),
+    architecture: z.string(),
+    decisions: z.string(),
+    results: z.string(),
+  }),
+  comparison: z
+    .array(
+      z.object({
+        metric: z.string(),
+        before: z.string(),
+        after: z.string(),
+      }),
+    )
+    .optional(),
   stack: z.array(z.string()).min(2),
   result: z.string().min(1),
   image: z.string().startsWith("/"),
@@ -37,16 +61,34 @@ const projectSchema = z.object({
 
 const projectData = [
   {
+    order: 3,
     slug: "reviewpilot-ai",
     title: "ReviewPilot AI",
     positioning: "AI-assisted pull request review workflow",
     summary:
-      "A personal Next.js application and GitHub App exploring structured pull request review. The public demo uses a deterministic mock provider; real LLM analysis requires the optional OpenAI-compatible integration.",
+      "A Next.js application and GitHub App that turn a diff into line-aware review findings through one validated API and a replaceable analysis provider.",
     contribution:
-      "Product design, frontend architecture, GitHub integration and evaluation workflow",
+      "I designed the review UI, shared review pipeline, GitHub integration and evaluation workflow.",
+    kind: "Personal AI project",
+    stage: "Working prototype",
+    scope:
+      "The public demo uses a deterministic mock provider. Real LLM analysis is optional and requires the OpenAI-compatible integration.",
+    inspection: {
+      demo: "Load an example diff and inspect findings, source lines and risk factors.",
+      source:
+        "Trace the shared review service, provider boundary, schema validation and golden-case evaluations.",
+      sourceUrl:
+        "https://github.com/JohnImril/reviewpilot-ai/blob/master/docs/architecture.md",
+    },
+    headings: {
+      challenge: "A review contract the UI can rely on",
+      architecture: "One pipeline for manual and GitHub reviews",
+      decisions: "Validate at the boundary; keep the provider replaceable",
+      results: "What the working prototype demonstrates",
+    },
     stack: ["Next.js", "TypeScript", "Zod", "GitHub App", "Vitest", "CI"],
     result:
-      "A complete review pipeline with validated, provider-independent structured output.",
+      "One review contract for the UI, API and GitHub webhook, with provider output validated before rendering.",
     image: "/projects/reviewpilot-ai/dashboard.webp",
     imageAlt:
       "ReviewPilot AI dashboard showing a structured pull request risk analysis",
@@ -69,7 +111,7 @@ const projectData = [
       },
       {
         title: "Diff pipeline",
-        detail: "Parsing, normalization and context budgeting",
+        detail: "Parsed files, hunks and source line locations",
       },
       {
         title: "Provider contract",
@@ -106,16 +148,34 @@ const projectData = [
       "Free-form Markdown was considered but offers weaker validation and UI guarantees.",
     ],
     status:
-      "Working public demo; continued experimentation with evaluation cases and provider behavior.",
+      "Working prototype and public demo. Durable webhook processing, persistent deduplication and multi-tenant controls remain further work before production use.",
   },
   {
+    order: 1,
     slug: "diablo-web",
     title: "Diablo Web",
     positioning: "Modernizing a browser-based WebAssembly game runtime",
     summary:
-      "A compatibility and architecture modernization of existing open-source browser and game-engine work, with typed runtime orchestration around WebAssembly, workers, canvas and browser storage.",
+      "A React and TypeScript shell around an existing WebAssembly game engine, with explicit runtime, worker and storage boundaries.",
     contribution:
-      "Frontend modernization, runtime boundaries, protocol validation, tests and delivery",
+      "I modernized the web client: runtime APIs, worker integration, storage coordination, tests and build tooling.",
+    kind: "Personal modernization project",
+    stage: "Working browser client",
+    scope:
+      "Built on devilution and earlier DiabloWeb ports. The original engine and WebAssembly port are upstream work; my contribution is the browser client modernization and integration.",
+    inspection: {
+      demo: "Inspect asset loading, runtime startup and the browser UI. Full-game play requires your own game data.",
+      source:
+        "Inspect core, adapter, runtime and UI boundaries, import checks, and exclusive save-storage ownership.",
+      sourceUrl:
+        "https://github.com/JohnImril/diablo_web/blob/main/ARCHITECTURE.md",
+    },
+    headings: {
+      challenge: "Modernize the client around an existing engine",
+      architecture: "Keep engine details behind the runtime boundary",
+      decisions: "Separate pure logic, side effects and UI state",
+      results: "A modern browser client with explicit boundaries",
+    },
     stack: [
       "React",
       "TypeScript",
@@ -125,7 +185,7 @@ const projectData = [
       "Canvas",
     ],
     result:
-      "A maintainable browser runtime shell with explicit boundaries around engine, worker and UI concerns.",
+      "Typed runtime APIs, enforced import boundaries and explicit save-storage ownership.",
     image: "/projects/diablo-web/game.webp",
     imageAlt:
       "Diablo Web browser runtime displaying the game canvas and interface",
@@ -160,10 +220,10 @@ const projectData = [
       },
     ],
     decisions: [
-      "Worker protocol validation rejects malformed or out-of-order messages.",
-      "Runtime orchestration is isolated from presentational React components.",
+      "Pure domain logic, side-effect adapters, runtime orchestration and React UI have separate responsibilities. Import-boundary lint checks help enforce those rules.",
+      "The UI calls runtime APIs and subscribes to events instead of importing engine, storage or network adapters directly.",
       "Vite replaces older delivery tooling while retaining required WebAssembly behavior.",
-      "Browser storage and MPQ loading are treated as explicit runtime services.",
+      "An origin-wide Web Lock gives one participating tab ownership of save storage. Per-write locking alone would not protect independent engine snapshots.",
     ],
     quality: [
       "Automated tests cover web-layer behavior.",
@@ -178,23 +238,42 @@ const projectData = [
     tradeoffs: [
       "Browser execution remains constrained by upstream engine and asset compatibility.",
       "Canvas output is not a conventional accessible DOM interface.",
-      "The integration prioritizes compatibility over rewriting upstream engine internals.",
+      "Save storage requires HTTPS or localhost and Web Locks support. The ownership lock does not guarantee disk durability or crash recovery.",
+      "Mobile controls need refinement, multiplayer remains experimental, and upstream and bundled-artifact licensing still needs clarification.",
     ],
     alternatives: [
       "A full engine rewrite was out of scope and would erase the value of the upstream work.",
       "Main-thread execution was avoided because runtime work could compromise interface responsiveness.",
     ],
     status:
-      "Functional public modernization project. Diablo, its assets and the original engine remain the property of their respective owners and contributors.",
+      "Working browser client and public demo. Game assets and the original engine belong to their respective owners and contributors.",
   },
   {
+    order: 2,
     slug: "fleet-route-monitor",
     title: "Fleet Route Monitor",
     positioning: "Real-time logistics monitoring interface",
     summary:
       "A responsive operational dashboard that turns deterministic vehicle simulation into route progress, ETA, delay risk and actionable alerts.",
     contribution:
-      "Interaction design, simulation model, map integration and testable operational state",
+      "I built the simulation model, derived operational state, Leaflet integration and responsive dashboard.",
+    kind: "Personal interface project",
+    stage: "Working simulated demo",
+    scope:
+      "All vehicle movement, ETA and risk values are simulated. This demo has no live telemetry, routing API or fleet backend.",
+    inspection: {
+      demo: "Switch between normal traffic, rush hour, bad weather and road closure; pause or reset the simulation.",
+      source:
+        "Inspect the simulation domain separately from map rendering and dashboard components.",
+      sourceUrl:
+        "https://github.com/JohnImril/leaflet-route/tree/master/src/domain/fleet-simulation",
+    },
+    headings: {
+      challenge: "Make changing route state understandable",
+      architecture: "One simulation state, two synchronized views",
+      decisions: "Keep operational rules outside the map",
+      results: "Repeatable scenarios you can inspect",
+    },
     stack: [
       "React",
       "TypeScript",
@@ -204,7 +283,7 @@ const projectData = [
       "Vitest",
     ],
     result:
-      "A credible, repeatable monitoring experience without depending on a live fleet backend.",
+      "A shared simulation state keeps route progress, ETA, risk and alerts synchronized across map and dashboard.",
     image: "/projects/fleet-route-monitor/dashboard.webp",
     imageAlt:
       "Fleet Route Monitor dashboard with a route map, vehicle progress and operational alerts",
@@ -239,7 +318,8 @@ const projectData = [
       },
     ],
     decisions: [
-      "Derived values are calculated from a deterministic simulation state.",
+      "The simulation domain owns route assignment, timing, ETA and risk calculations; map and dashboard layers render that derived state.",
+      "Seeded route assignment and scenario controls make behavior reproducible without live backend services.",
       "Scenario switching makes edge cases directly inspectable.",
       "Operational alerts are visible in the dashboard rather than only as map markers.",
     ],
@@ -266,19 +346,56 @@ const projectData = [
       "Working public demonstration with deterministic scenarios, tests and CI.",
   },
   {
+    order: 4,
     slug: "forest",
     title: "Forest",
     positioning: "Measured React-to-Svelte performance migration",
     summary:
-      "An engineering experiment that measures the effect—and limits—of migrating the application layer from React to Svelte while keeping the image payload constant.",
+      "An experiment isolating React-to-Svelte application overhead in a small seasonal scene, with equivalent behavior and unchanged image assets.",
     contribution:
-      "Migration implementation, measurement design, analysis and documentation",
+      "I built the Svelte port, measured production builds and Lighthouse, and documented improvements and regressions.",
+    kind: "Performance experiment",
+    stage: "Completed comparison",
+    scope:
+      "These results describe this small app and its recorded local run. The public demo is the React baseline; the Svelte implementation is on the svelte-port branch.",
+    inspection: {
+      demo: "Explore the seasonal scene and image-loading behavior in the React baseline.",
+      source:
+        "Compare main (React) and svelte-port (Svelte), with raw measurements and the full-build regression.",
+      sourceUrl:
+        "https://github.com/JohnImril/forest/blob/main/docs/metrics/comparison.md",
+    },
+    headings: {
+      challenge: "Isolate application overhead in an image-heavy scene",
+      architecture: "Compare equivalent behavior and production builds",
+      decisions: "Keep the images constant, report the regressions",
+      results: "The recorded comparison, including what got slower",
+    },
+    comparison: [
+      {
+        metric: "JavaScript bundle",
+        before: "200,911 B",
+        after: "52,025 B (−74%)",
+      },
+      { metric: "Lighthouse Performance", before: "75", after: "92" },
+      { metric: "Largest Contentful Paint", before: "8.9 s", after: "3.4 s" },
+      {
+        metric: "Full build command",
+        before: "1.967 s",
+        after: "2.496 s (+0.529 s)",
+      },
+      {
+        metric: "Image assets",
+        before: "5,917,848 B",
+        after: "5,917,848 B (unchanged)",
+      },
+    ],
     stack: ["Svelte", "TypeScript", "Vite", "Lighthouse", "Bundle analysis"],
     result:
-      "74% less JavaScript and a measured Lighthouse Performance increase from 75 to 92.",
+      "JavaScript −74%; Lighthouse Performance 75 → 92 in the recorded run. Full build time increased by 0.529 s.",
     image: "/projects/forest/gallery.webp",
     imageAlt:
-      "Forest image gallery used for the measured framework migration experiment",
+      "Forest seasonal scene used for the measured React-to-Svelte migration experiment",
     repository: "https://github.com/JohnImril/forest",
     demo: "https://johnimril.github.io/forest/",
     clusters: ["performance"],
@@ -289,10 +406,13 @@ const projectData = [
     constraints: [
       "The image payload remains unchanged between variants.",
       "Lighthouse scores depend on the measurement environment.",
-      "A small gallery cannot represent every production workload.",
+      "A small seasonal scene cannot represent every production workload.",
     ],
     architecture: [
-      { title: "Comparable UI", detail: "Same gallery behavior and content" },
+      {
+        title: "Comparable UI",
+        detail: "Same seasonal scene and image assets",
+      },
       {
         title: "Svelte application",
         detail: "Migrated component and runtime layer",
@@ -312,9 +432,9 @@ const projectData = [
       "Results document regressions and remaining bottlenecks alongside improvements.",
     ],
     quality: [
-      "Measurements and methodology are documented in the repository.",
-      "The migrated behavior remains covered by project checks.",
-      "Raw byte counts accompany percentage claims.",
+      "Measurements were collected on 2026-07-08 from production builds served through the same local Vite preview setup.",
+      "Lighthouse 13.4.0 reports and raw byte counts are documented in the repository. Scores remain run-sensitive.",
+      "Both implementations have unit tests; the comparison records seven passing tests for React and ten for Svelte.",
     ],
     results: [
       "JavaScript: 200,911 bytes → 52,025 bytes (74% reduction)",
@@ -322,8 +442,9 @@ const projectData = [
       "Largest Contentful Paint: 8.9 s → 3.4 s",
     ],
     tradeoffs: [
-      "Image payload remained unchanged and continued to dominate transfer size.",
-      "Build behavior and ecosystem trade-offs were measured and documented.",
+      "The unchanged 5,917,848 B of image assets continued to dominate the payload.",
+      "The full quality-gated build increased from 1.967 s to 2.496 s; a faster Vite phase did not make the full command faster.",
+      "CSS grew by 199 B, and the Svelte port introduced compiler and store-initialization trade-offs.",
       "The result supports this case study, not a claim that Svelte is universally faster than React.",
     ],
     alternatives: [
@@ -335,7 +456,10 @@ const projectData = [
   },
 ] as const;
 
-export const projects = projectSchema.array().parse(projectData);
+export const projects = projectSchema
+  .array()
+  .parse(projectData)
+  .sort((a, b) => a.order - b.order);
 export type Project = (typeof projects)[number];
 
 export function getProject(slug: string): Project | undefined {

@@ -51,11 +51,12 @@ export default function Image() {
             marginTop: 22,
           }}
         >
-          Complex, fast and maintainable web products.
+          {profile.headline}
         </div>
       </div>
       <div style={{ color: "#98a2b3", fontSize: 22 }}>
-        React / Next.js / TypeScript / Node.js / Architecture / Performance
+        React / Next.js / TypeScript · Architecture / Performance /
+        Maintainability
       </div>
     </div>,
     size,

@@ -12,12 +12,25 @@ export function ProjectLinks({
   return (
     <div className="project-links">
       {caseStudy ? (
-        <Link href={`/work/${project.slug}`}>
+        <Link
+          href={`/work/${project.slug}`}
+          aria-label={`Read ${project.title} case study`}
+        >
           Read case study <span aria-hidden="true">→</span>
         </Link>
       ) : null}
-      <ExternalLink href={project.demo}>Live demo</ExternalLink>
-      <ExternalLink href={project.repository}>Source code</ExternalLink>
+      <ExternalLink
+        href={project.demo}
+        aria-label={`${project.title} live demo`}
+      >
+        Live demo
+      </ExternalLink>
+      <ExternalLink
+        href={project.repository}
+        aria-label={`${project.title} source code`}
+      >
+        Source code
+      </ExternalLink>
     </div>
   );
 }

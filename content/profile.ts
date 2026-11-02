@@ -1,12 +1,11 @@
 export const profile = {
   name: "Nikita Maksimov",
   role: "Senior Frontend Engineer",
-  headline:
-    "Senior Frontend Engineer building complex, fast and maintainable web products.",
+  headline: "Build complex products. Evolve working systems.",
   summary:
-    "Senior Frontend Engineer with full-stack experience, focused on complex software systems, architecture, performance and maintainability. Working commercially since February 2022, primarily with React, Next.js and TypeScript.",
+    "Senior Frontend Engineer building and modernizing complex web products since 2022. React, Next.js and TypeScript, with a focus on architecture, performance and maintainability. Additional commercial Node.js experience.",
   heroDescription:
-    "I build and modernize complex software systems, combining deep frontend expertise with commercial Node.js experience. My focus is on architecture, performance, and maintainability.",
+    "React, Next.js and TypeScript for public platforms, enterprise workflows and real-time interfaces. Commercial engineering since 2022.",
   location: "Astana, Kazakhstan",
   timezone: "UTC+5",
   availability: "Open to international remote opportunities and relocation.",
@@ -16,13 +15,4 @@ export const profile = {
     linkedin: "https://www.linkedin.com/in/nikita-maksimov-dev",
     telegram: "https://t.me/JohnImril",
   },
-  technologies: [
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Frontend Architecture",
-    "Performance",
-    "WebSocket",
-    "Node.js",
-  ],
 } as const;

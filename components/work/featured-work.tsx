@@ -8,8 +8,8 @@ export function FeaturedWork() {
       <SectionHeading
         id="work-title"
         eyebrow="Selected work"
-        title="Systems, not just screens."
-        copy="Independent projects with working demos, source code and the engineering decisions behind them."
+        title="Inspect the engineering."
+        copy="Personal projects with public demos and source code. Each makes a different part of my approach visible. Commercial results follow in Experience."
       />
       <div className="project-list">
         {projects.map((project, index) => (

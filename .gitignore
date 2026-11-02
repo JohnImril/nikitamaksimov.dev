@@ -9,3 +9,6 @@ public/resume.pdf
 
 # TypeScript incremental compiler cache
 *.tsbuildinfo
+
+# Local screenshots and browser verification artifacts
+/artifacts/portfolio-review/

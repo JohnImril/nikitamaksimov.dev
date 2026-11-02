@@ -1,40 +1,41 @@
 import { profile } from "@/content/profile";
 import { ExternalLink } from "@/components/shared/external-link";
-import { DynamicSignalMap } from "./dynamic-signal-map";
 import { StaticSignalMap } from "./static-signal-map";
 
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-map">
-        <StaticSignalMap />
-        <DynamicSignalMap />
-      </div>
       <div className="hero-content">
-        <p className="eyebrow">
-          <span className="status-dot" /> {profile.availability}
-        </p>
+        <p className="eyebrow">{profile.role}</p>
         <h1 id="hero-title">
-          {profile.role} building <span>complex, fast and maintainable</span>{" "}
-          web products.
+          Build complex products. <span>Evolve working systems.</span>
         </h1>
         <p className="hero-copy">{profile.heroDescription}</p>
         <div className="hero-actions">
           <a className="button" href="#work">
-            View selected work
+            Explore selected work <span aria-hidden="true">→</span>
           </a>
-          <ExternalLink
+          <a
             className="button button-secondary"
-            href={profile.links.linkedin}
+            href={`mailto:${profile.email}`}
           >
-            LinkedIn
-          </ExternalLink>
+            Get in touch
+          </a>
         </div>
         <div className="hero-links">
+          <a href="#experience">Commercial experience ↓</a>
           <ExternalLink href={profile.links.github}>GitHub</ExternalLink>
+          <ExternalLink href={profile.links.linkedin}>LinkedIn</ExternalLink>
         </div>
+        <p className="hero-availability">
+          <span className="status-dot" aria-hidden="true" />
+          {profile.availability}
+        </p>
       </div>
-      <p className="technology-line">{profile.technologies.join(" · ")}</p>
+      <div className="hero-map">
+        <p className="map-caption">Frontend engineering / connected concerns</p>
+        <StaticSignalMap />
+      </div>
     </section>
   );
 }

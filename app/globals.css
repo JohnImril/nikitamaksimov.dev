@@ -225,24 +225,18 @@ h3 {
   position: relative;
   min-width: 0;
   aspect-ratio: 1;
-  background: radial-gradient(
-    ellipse at 52% 48%,
-    #8c71d92c,
-    #5665ae0a 54%,
-    transparent 72%
-  );
 }
-.kinetic-sculpture {
+.displaced-sphere {
   position: relative;
   width: 100%;
   height: 100%;
 }
-.sculpture-still {
+.sphere-still {
   display: block;
   width: 100%;
   height: 100%;
 }
-.sculpture-canvas {
+.sphere-canvas {
   position: absolute;
   inset: 0;
   display: block;
@@ -250,13 +244,13 @@ h3 {
   height: 100%;
   opacity: 0;
 }
-.kinetic-sculpture[data-renderer="webgl"] .sculpture-canvas {
+.displaced-sphere[data-renderer="webgl"] .sphere-canvas {
   opacity: 1;
 }
-.kinetic-sculpture[data-renderer="webgl"] .sculpture-still {
+.displaced-sphere[data-renderer="webgl"] .sphere-still {
   opacity: 0;
 }
-.sculpture-motion-control {
+.sphere-motion-control {
   position: absolute;
   z-index: 2;
   right: 24px;
@@ -274,7 +268,7 @@ h3 {
     sans-serif;
   cursor: pointer;
 }
-.sculpture-motion-control:hover {
+.sphere-motion-control:hover {
   color: var(--text);
 }
 .section {

@@ -1,6 +1,6 @@
 import { profile } from "@/content/profile";
-import { DynamicSculpture } from "./dynamic-sculpture";
-import { StaticSculpture } from "./static-sculpture";
+import { DynamicSphere } from "./dynamic-sphere";
+import { StaticSphere } from "./static-sphere";
 
 export function Hero() {
   return (
@@ -28,9 +28,9 @@ export function Hero() {
         </p>
       </div>
       <div className="hero-visual">
-        <DynamicSculpture>
-          <StaticSculpture />
-        </DynamicSculpture>
+        <DynamicSphere>
+          <StaticSphere />
+        </DynamicSphere>
       </div>
     </section>
   );

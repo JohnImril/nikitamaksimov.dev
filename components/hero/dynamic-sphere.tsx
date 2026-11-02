@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { animationShouldRun } from "@/lib/motion";
-import type { SculptureController } from "./engineering-sculpture";
+import type { SphereController } from "./displaced-sphere";
 
-export function DynamicSculpture({ children }: { children: ReactNode }) {
+export function DynamicSphere({ children }: { children: ReactNode }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
   const syncRef = useRef<() => void>(() => {});
@@ -21,8 +21,8 @@ export function DynamicSculpture({ children }: { children: ReactNode }) {
     let failed = false;
     let initializing = false;
     let initialize:
-      typeof import("./engineering-sculpture").enhanceSculpture | undefined;
-    let controller: SculptureController | undefined;
+      typeof import("./displaced-sphere").enhanceSphere | undefined;
+    let controller: SphereController | undefined;
 
     const sync = () => {
       setControlsAvailable(!media.matches && Boolean(controller));
@@ -60,10 +60,10 @@ export function DynamicSculpture({ children }: { children: ReactNode }) {
           });
       } else if (!loading && !failed) {
         loading = true;
-        void import("./engineering-sculpture")
+        void import("./displaced-sphere")
           .then((module) => {
             if (disposed) return;
-            initialize = module.enhanceSculpture;
+            initialize = module.enhanceSphere;
             sync();
           })
           .catch(() => {
@@ -84,23 +84,23 @@ export function DynamicSculpture({ children }: { children: ReactNode }) {
     observer.observe(host);
     media.addEventListener("change", sync);
     document.addEventListener("visibilitychange", sync);
-    host.addEventListener("sculpture:restored", sync);
+    host.addEventListener("sphere:restored", sync);
     return () => {
       disposed = true;
       syncRef.current = () => {};
       observer.disconnect();
       media.removeEventListener("change", sync);
       document.removeEventListener("visibilitychange", sync);
-      host.removeEventListener("sculpture:restored", sync);
+      host.removeEventListener("sphere:restored", sync);
       controller?.dispose();
     };
   }, []);
   return (
-    <div className="kinetic-sculpture" ref={hostRef} data-motion="static">
+    <div className="displaced-sphere" ref={hostRef} data-motion="static">
       {children}
       {controlsAvailable ? (
         <button
-          className="sculpture-motion-control"
+          className="sphere-motion-control"
           type="button"
           aria-pressed={paused}
           onClick={() => {

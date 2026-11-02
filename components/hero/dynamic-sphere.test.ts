@@ -8,7 +8,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DynamicSculpture } from "./dynamic-sculpture";
+import { DynamicSphere } from "./dynamic-sphere";
 
 const motion = vi.hoisted(() => ({
   start: vi.fn<() => void>(),
@@ -19,18 +19,18 @@ const motion = vi.hoisted(() => ({
 const enhance = vi.hoisted(() =>
   vi.fn<() => typeof motion | Promise<typeof motion>>(),
 );
-vi.mock("./engineering-sculpture", () => ({ enhanceSculpture: enhance }));
+vi.mock("./displaced-sphere", () => ({ enhanceSphere: enhance }));
 
 let intersect: (entries: { isIntersecting: boolean }[]) => void;
 let media: EventTarget & { matches: boolean };
 let visibility: DocumentVisibilityState;
 const show = () => act(() => intersect([{ isIntersecting: true }]));
-const renderMap = () =>
+const renderSphere = () =>
   render(
     createElement(
-      DynamicSculpture,
+      DynamicSphere,
       null,
-      createElement("p", null, "Static system diagram"),
+      createElement("p", null, "Static displaced sphere"),
     ),
   );
 
@@ -63,20 +63,20 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("sculpture motion lifecycle", () => {
+describe("sphere motion lifecycle", () => {
   it("starts on visibility without requiring a pointer and cleans up on unmount", async () => {
-    const view = renderMap();
+    const view = renderSphere();
     expect(enhance).not.toHaveBeenCalled();
     show();
     await waitFor(() => expect(motion.start).toHaveBeenCalledOnce());
-    expect(screen.getByText("Static system diagram")).toBeTruthy();
+    expect(screen.getByText("Static displaced sphere")).toBeTruthy();
     view.unmount();
     expect(motion.dispose).toHaveBeenCalledOnce();
   });
 
   it("keeps the static fallback under reduced motion and responds to preference changes", async () => {
     media.matches = true;
-    renderMap();
+    renderSphere();
     show();
     await act(async () => {});
     expect(enhance).not.toHaveBeenCalled();
@@ -96,7 +96,7 @@ describe("sculpture motion lifecycle", () => {
   });
 
   it("does not initialize WebGL if motion is disabled while its chunk is loading", async () => {
-    renderMap();
+    renderSphere();
     show();
     act(() => {
       media.matches = true;
@@ -112,7 +112,7 @@ describe("sculpture motion lifecycle", () => {
   });
 
   it("stops offscreen and in hidden tabs, then resumes the existing controller", async () => {
-    renderMap();
+    renderSphere();
     show();
     await waitFor(() => expect(motion.start).toHaveBeenCalledOnce());
     act(() => intersect([{ isIntersecting: false }]));
@@ -132,7 +132,7 @@ describe("sculpture motion lifecycle", () => {
   });
 
   it("preserves the user's pause when visibility changes", async () => {
-    renderMap();
+    renderSphere();
     show();
     await waitFor(() => expect(motion.start).toHaveBeenCalledOnce());
     fireEvent.click(screen.getByRole("button", { name: "Pause motion" }));
@@ -152,15 +152,15 @@ describe("sculpture motion lifecycle", () => {
     enhance.mockImplementationOnce(() => {
       throw new Error("Chunk unavailable");
     });
-    const view = renderMap();
+    const view = renderSphere();
     show();
     await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
     expect(
       view.container
-        .querySelector(".kinetic-sculpture")
+        .querySelector(".displaced-sphere")
         ?.getAttribute("data-motion"),
     ).toBe("static");
-    expect(screen.getByText("Static system diagram")).toBeTruthy();
+    expect(screen.getByText("Static displaced sphere")).toBeTruthy();
     expect(screen.queryByRole("button")).toBeNull();
   });
 
@@ -171,7 +171,7 @@ describe("sculpture motion lifecycle", () => {
         complete = resolve;
       }),
     );
-    const view = renderMap();
+    const view = renderSphere();
     show();
     await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
     view.unmount();
@@ -187,7 +187,7 @@ describe("sculpture motion lifecycle", () => {
         complete = resolve;
       }),
     );
-    renderMap();
+    renderSphere();
     show();
     await waitFor(() => expect(enhance).toHaveBeenCalledOnce());
     act(() => {

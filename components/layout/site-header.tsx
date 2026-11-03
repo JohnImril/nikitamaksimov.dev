@@ -38,7 +38,12 @@ export function SiteHeader() {
   return (
     <header className="site-header" data-scrolled={scrolled}>
       <div className="header-inner">
-        <Link href="/" className="wordmark" aria-label="Nikita Maksimov, home">
+        <Link
+          href="/"
+          prefetch={false}
+          className="wordmark"
+          aria-label="Nikita Maksimov, home"
+        >
           <span className="wordmark-dot" aria-hidden="true" /> Nikita Maksimov
         </Link>
         <button
@@ -53,7 +58,12 @@ export function SiteHeader() {
         </button>
         <nav id="site-navigation" aria-label="Main navigation" data-open={open}>
           {navigation.map(([label, href]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)}>
+            <Link
+              key={href}
+              href={href}
+              prefetch={false}
+              onClick={() => setOpen(false)}
+            >
               {label}
             </Link>
           ))}

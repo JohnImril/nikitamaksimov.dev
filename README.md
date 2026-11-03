@@ -31,13 +31,15 @@ The full original MIT notice is distributed in
 
 The sphere is a separate, lazy-loaded enhancement. Its geometry is constructed in
 a worker so setup does not block the page. A matching transparent rendered still
-is served immediately, independently of the Three.js chunk, and retained until
-shaders and the first frame are ready. Regenerate
+is served immediately on desktop, independently of the Three.js chunk, and retained
+until shaders and the first frame are ready. Regenerate
 `public/hero/displaced-sphere-rest.webp` from the renderer at time zero when
 changing the scene. The shader clock pauses offscreen, in hidden tabs and with
 the pause control. System reduced-motion changes restore the resting pose;
 no-JS, failed-chunk, worker and WebGL fallbacks retain the still. The mobile layout
-does not initialize WebGL. Animation loading never gates the hero text or actions.
+does not download the desktop still or initialize WebGL. The desktop still has
+high fetch priority because it is the largest contentful paint element. Animation
+loading never gates the hero text or actions.
 Project cards and case studies render on the server. The
 homepage connects four engineering strengths to commercial examples and public
 projects, with Node.js and AI scope described separately. Shared styles support
@@ -59,8 +61,9 @@ npm run dev
 
 Open http://localhost:3000. Edit content in `content/` and UI in `components/`.
 No environment variables, credentials or backend services are required. Analytics
-is enabled only when `NODE_ENV` is `production`. Next.js downloads the Geist fonts
-at build time, so a production build requires access to Google Fonts.
+is enabled only for production builds on Vercel (`VERCEL=1`), where the analytics
+endpoint is available. Next.js downloads the Geist fonts at build time, so a
+production build requires access to Google Fonts.
 
 ## Quality checks
 

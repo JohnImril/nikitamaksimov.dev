@@ -14,20 +14,20 @@ export function ProjectLinks({
       {caseStudy ? (
         <Link
           href={`/work/${project.slug}`}
-          aria-label={`Read ${project.title} case study`}
+          aria-label={`View project: ${project.title}`}
         >
-          Read case study <span aria-hidden="true">→</span>
+          View project <span aria-hidden="true">→</span>
         </Link>
       ) : null}
       <ExternalLink
         href={project.demo}
-        aria-label={`${project.title} live demo`}
+        aria-label={`Live demo: ${project.title}`}
       >
         Live demo
       </ExternalLink>
       <ExternalLink
         href={project.repository}
-        aria-label={`${project.title} source code`}
+        aria-label={`Source code: ${project.title}`}
       >
         Source code
       </ExternalLink>

@@ -49,7 +49,11 @@ export function EngineeringStrengths() {
           <article key={strength.title}>
             <h3>{strength.title}</h3>
             <p>{strength.description}</p>
-            <Link className="strength-proof" href={strength.href}>
+            <Link
+              className="strength-proof"
+              href={strength.href}
+              prefetch={strength.href.startsWith("/#") ? false : null}
+            >
               {strength.proof} <span aria-hidden="true">→</span>
             </Link>
           </article>

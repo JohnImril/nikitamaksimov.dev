@@ -105,8 +105,7 @@ export function ContactSection() {
         Building a product, modernizing a frontend, or hiring a senior engineer?
       </h2>
       <p className="contact-copy">
-        I’m open to international Senior Frontend Engineer roles, remote work
-        and relocation.
+        I’m open to international remote Senior Frontend Engineer roles.
       </p>
       <a className="contact-email" href={`mailto:${profile.email}`}>
         {profile.email}

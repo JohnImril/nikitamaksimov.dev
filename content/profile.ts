@@ -8,7 +8,7 @@ export const profile = {
     "React, Next.js and TypeScript for public platforms, enterprise workflows and real-time interfaces. Commercial engineering since 2022.",
   location: "Astana, Kazakhstan",
   timezone: "UTC+5",
-  availability: "Open to international remote opportunities and relocation.",
+  availability: "Open to international remote opportunities.",
   email: "john.maks595@gmail.com",
   links: {
     github: "https://github.com/JohnImril",

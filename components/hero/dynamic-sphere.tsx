@@ -11,6 +11,8 @@ export function DynamicSphere({ children }: { children: ReactNode }) {
   const [paused, setPaused] = useState(false);
   const [controlsAvailable, setControlsAvailable] = useState(false);
 
+  // These mutable locals belong to one effect lifecycle, not to render state.
+  /* oxlint-disable react/immutability */
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return undefined;
@@ -95,6 +97,7 @@ export function DynamicSphere({ children }: { children: ReactNode }) {
       controller?.dispose();
     };
   }, []);
+  /* oxlint-enable react/immutability */
   return (
     <div className="displaced-sphere" ref={hostRef} data-motion="static">
       {children}

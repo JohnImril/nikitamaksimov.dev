@@ -24,7 +24,7 @@ export function Hero() {
         </div>
         <p className="hero-availability">
           <span className="status-dot" aria-hidden="true" />
-          Open to remote roles & relocation
+          Open to remote roles
         </p>
       </div>
       <div className="hero-visual">

@@ -426,7 +426,8 @@ h3 {
 .project-content h3 a:hover {
   color: var(--accent);
 }
-.project-content > p:not(.eyebrow, .project-stage) {
+.project-content
+  > p:not(.eyebrow, .project-stage, .project-scope, .project-inspect) {
   margin: 0 0 20px;
   color: #c1cad7;
 }
@@ -636,6 +637,10 @@ dd {
   text-underline-offset: 3px;
 }
 .contact-section {
+  width: min(
+    calc(100% - 2 * var(--gutter)),
+    calc(var(--container) - 2 * var(--gutter))
+  );
   margin: 32px auto 88px;
   padding: 64px;
   border: 1px solid #6379a866;
@@ -1042,13 +1047,7 @@ details[open] summary {
     gap: 32px;
   }
 }
-@media (max-width: 760px) {
-  body {
-    font-size: 16px;
-  }
-  .eyebrow {
-    font-size: 12px;
-  }
+@media (max-width: 900px) {
   html {
     scroll-padding-top: 88px;
   }
@@ -1092,6 +1091,14 @@ details[open] summary {
   }
   .site-header .button-small {
     margin-top: 8px;
+  }
+}
+@media (max-width: 760px) {
+  body {
+    font-size: 16px;
+  }
+  .eyebrow {
+    font-size: 12px;
   }
   .hero {
     padding: 46px 20px 50px;
@@ -1173,7 +1180,8 @@ details[open] summary {
   .project-content h3 {
     font-size: 32px;
   }
-  .project-content > p:not(.eyebrow, .project-stage) {
+  .project-content
+    > p:not(.eyebrow, .project-stage, .project-scope, .project-inspect) {
     font-size: 15px;
   }
   .project-content > .project-scope {
@@ -1221,7 +1229,8 @@ details[open] summary {
     gap: 28px;
   }
   .contact-section {
-    margin: 16px 12px 54px;
+    width: auto;
+    margin: 16px 20px 54px;
     padding: 32px 24px;
   }
   .contact-copy {

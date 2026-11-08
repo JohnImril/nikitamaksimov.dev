@@ -7,7 +7,7 @@ const strengths = [
     description:
       "Modernize live products through staged migrations, regression checks and a clear path back.",
     proof: "Commercial migrations",
-    href: "/#commercial-modernization",
+    href: "/work/shared-library-modernization",
   },
   {
     title: "Complex interfaces",
@@ -26,9 +26,9 @@ const strengths = [
   {
     title: "System thinking",
     description:
-      "Connect UI decisions to APIs, data and authorization, informed by commercial Node.js experience.",
-    proof: "Beyond the frontend",
-    href: "/#beyond-frontend",
+      "Connect UI behavior to API contracts and business rules, with public contributions across React and Django.",
+    proof: "Open source changes",
+    href: "/#open-source",
   },
 ] as const;
 

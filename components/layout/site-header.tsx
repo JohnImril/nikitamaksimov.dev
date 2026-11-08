@@ -7,8 +7,8 @@ import { ExternalLink } from "@/components/shared/external-link";
 
 const navigation = [
   ["Strengths", "/#strengths"],
-  ["Work", "/#work"],
   ["Experience", "/#experience"],
+  ["Work", "/#work"],
   ["Contact", "/#contact"],
 ] as const;
 

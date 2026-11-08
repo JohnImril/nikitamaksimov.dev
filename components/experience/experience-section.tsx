@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { sharedLibraryModernization as study } from "@/content/commercial";
 import { commercialPerformance, experience } from "@/content/experience";
 import { SectionHeading } from "@/components/shared/section-heading";
 
@@ -17,18 +19,13 @@ export function ExperienceSection() {
       <article className="modernization-story" id="commercial-modernization">
         <div>
           <p className="eyebrow">Shared libraries / multiple applications</p>
-          <h3>Make change adoptable in stages.</h3>
+          <h3>{study.title}</h3>
         </div>
         <div>
-          <p>
-            Shared legacy libraries have consumers beyond a single application.
-            I modernized them through incremental migrations, using regression
-            checks and rollback strategies to support staged adoption.
-          </p>
-          <p>
-            The decision was to evolve the existing system in steps, so that
-            development and maintenance could continue during the migration.
-          </p>
+          <p>{study.summary}</p>
+          <Link className="text-link" href={`/work/${study.slug}`}>
+            Read the decisions and trade-offs ?
+          </Link>
         </div>
       </article>
       <div className="commercial-performance" id="commercial-performance">

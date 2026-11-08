@@ -15,14 +15,13 @@ export const experience = [
     description:
       "Built and modernized enterprise products for banking, logistics, retail, monitoring and operational workflows.",
     contribution:
-      "I built real-time WebSocket interfaces, Leaflet transport monitoring and JointJS diagram editors. I also modernized React and TypeScript code, migrated build tooling from Webpack to Vite and worked on monorepos, legacy refactoring and performance.",
+      "I built real-time WebSocket interfaces, Leaflet transport monitoring and JointJS diagram editors. I also modernized React and TypeScript code, migrated build tooling from Webpack to Vite and contributed to monorepo modernization, legacy refactoring and performance improvements.",
   },
 ] as const;
 
 // These are separate examples. The available material does not attribute every
 // metric to an employer or establish that they came from the same application.
-// The monitoring result is observed section loading, with no documented TTI
-// measurement method. Keep the public label neutral.
+// TTI terminology is supplied by the author; no measurement method is claimed.
 export const commercialPerformance = [
   {
     value: "≈32%",
@@ -40,9 +39,9 @@ export const commercialPerformance = [
   },
   {
     value: "≈5s → ≈2s",
-    label: "section load time",
+    label: "Time to Interactive (TTI)",
     title: "Transport monitoring",
     description:
-      "I worked on frontend loading performance in transport monitoring. Loading time for the affected sections fell from about five seconds to two.",
+      "I improved Time to Interactive (TTI) in transport monitoring from approximately five seconds to two.",
   },
 ] as const;

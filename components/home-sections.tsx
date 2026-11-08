@@ -32,20 +32,18 @@ export function AboutSection() {
             For shared commercial libraries, I chose staged adoption with
             regression checks and rollback planning.
           </p>
-          <a className="text-link" href="#commercial-modernization">
+          <Link className="text-link" href="/work/shared-library-modernization">
             See the migration example →
-          </a>
+          </Link>
         </article>
         <article>
           <h3>Follow the data through the system.</h3>
           <p>
-            In my personal ReviewPilot project, manual and GitHub-triggered
-            reviews share the same application service and validation contract.
+            In Insomnia-IT/feed, I extended API serializers and frontend types
+            together to combine warehouse and transfer records in a volunteer?s
+            inventory history.
           </p>
-          <Link
-            className="text-link"
-            href="/work/reviewpilot-ai#architecture-title"
-          >
+          <Link className="text-link" href="/#open-source">
             Trace the review workflow →
           </Link>
         </article>

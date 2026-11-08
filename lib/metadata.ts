@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import type { Project } from "@/content/projects";
+type CaseStudySummary = {
+  slug: string;
+  title: string;
+  positioning: string;
+  summary: string;
+};
 
 export const SITE_ORIGIN = "https://www.nikitamaksimov.dev";
 
@@ -7,7 +12,7 @@ export function absoluteUrl(pathname = "/") {
   return new URL(pathname, SITE_ORIGIN).toString();
 }
 
-export function projectMetadata(project: Project): Metadata {
+export function projectMetadata(project: CaseStudySummary): Metadata {
   const title = `${project.title} — Engineering case study`;
   const description = `${project.positioning}. ${project.summary}`;
   const url = absoluteUrl(`/work/${project.slug}`);
@@ -32,7 +37,7 @@ export function projectMetadata(project: Project): Metadata {
   };
 }
 
-export function projectStructuredData(project: Project) {
+export function projectStructuredData(project: CaseStudySummary) {
   return {
     "@context": "https://schema.org",
     "@type": "CreativeWork",

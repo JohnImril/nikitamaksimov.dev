@@ -7,8 +7,9 @@ import WorkPage, {
 } from "./[slug]/page";
 import { sharedLibraryModernization as study } from "@/content/commercial";
 import { projects } from "@/content/projects";
-import { contributions } from "@/content/contributions";
-import { OpenSourceContributions } from "@/components/work/open-source-contributions";
+import { insomnia, insomniaReferences } from "@/content/insomnia";
+import { InsomniaFeature } from "@/components/work/insomnia-feature";
+import { AboutSection } from "@/components/home-sections";
 import { commercialPerformance } from "@/content/experience";
 import sitemap from "@/app/sitemap";
 import { absoluteUrl } from "@/lib/metadata";
@@ -18,7 +19,9 @@ afterEach(cleanup);
 describe("commercial case integration", () => {
   it("generates unique routes for commercial and existing personal work", () => {
     const slugs = generateStaticParams().map(({ slug }) => slug);
-    expect(slugs).toEqual([...projects, study].map(({ slug }) => slug));
+    expect(slugs).toEqual(
+      [...projects, study, insomnia].map(({ slug }) => slug),
+    );
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(
       sitemap().some(({ url }) => url === absoluteUrl(`/work/${study.slug}`)),
@@ -36,7 +39,7 @@ describe("commercial case integration", () => {
     expect(
       screen
         .getAllByRole("link")
-        .every((link) => link.getAttribute("href")?.startsWith("/#")),
+        .every((link) => link.getAttribute("href")?.startsWith("/")),
     ).toBe(true);
     expect(
       screen
@@ -46,7 +49,7 @@ describe("commercial case integration", () => {
   });
 
   it("generates canonical and social metadata for both content types", async () => {
-    const entries = [...projects, study];
+    const entries = [...projects, study, insomnia];
     const results = await Promise.all(
       entries.map((entry) =>
         generateMetadata({ params: Promise.resolve({ slug: entry.slug }) }),
@@ -66,20 +69,54 @@ describe("commercial case integration", () => {
   });
 });
 
-describe("public evidence", () => {
-  it("links each contribution directly to a secure pull request", () => {
-    render(createElement(OpenSourceContributions));
-    for (const item of contributions) {
-      const url = new URL(item.url);
-      expect(url.protocol).toBe("https:");
-      expect(url.hostname).toBe("github.com");
-      expect(url.pathname).toBe(`/Insomnia-IT/feed/pull/${item.number}`);
-      const link = screen.getByRole("link", {
-        name: `Read PR #${item.number}`,
-      });
-      expect(link.getAttribute("href")).toBe(item.url);
-      expect(link.getAttribute("rel")).toContain("noreferrer");
+describe("collaborative project integration", () => {
+  it("features one project with a case-study CTA rather than PR cards", () => {
+    render(createElement(InsomniaFeature));
+    expect(screen.getByRole("heading", { name: insomnia.title })).toBeDefined();
+    expect(
+      screen
+        .getAllByRole("link")
+        .every(
+          (link) => link.getAttribute("href") === `/work/${insomnia.slug}`,
+        ),
+    ).toBe(true);
+  });
+
+  it("renders the full collaborative case with working local evidence anchors", async () => {
+    const { container } = render(
+      await WorkPage({ params: Promise.resolve({ slug: insomnia.slug }) }),
+    );
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
+      insomnia.title,
+    );
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(6);
+    expect(
+      sitemap().some(
+        ({ url }) => url === absoluteUrl(`/work/${insomnia.slug}`),
+      ),
+    ).toBe(true);
+    for (const link of container.querySelectorAll('a[href^="#"]')) {
+      expect(
+        container.querySelector(link.getAttribute("href")!),
+      ).not.toBeNull();
     }
+    for (const { number } of insomniaReferences) {
+      const link = container.querySelector(
+        `a[href="${insomnia.repository}/pull/${number}"]`,
+      );
+      expect(link?.getAttribute("rel")).toContain("noreferrer");
+    }
+    expect(screen.queryByText(/Open demo/i)).toBeNull();
+    expect(screen.getByText(/existing open-source platform/i)).toBeDefined();
+  });
+
+  it("routes the approach example to inventory, with a matching CTA", () => {
+    render(createElement(AboutSection));
+    expect(
+      screen
+        .getByRole("link", { name: /Trace the inventory workflow/ })
+        .getAttribute("href"),
+    ).toBe("/work/insomnia-feeder#inventory");
   });
 
   it("keeps TTI explicit and separate from build and JavaScript results", () => {

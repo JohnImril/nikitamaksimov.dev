@@ -4,9 +4,16 @@ import { notFound } from "next/navigation";
 import { projects, getProject } from "@/content/projects";
 import { projectMetadata, projectStructuredData } from "@/lib/metadata";
 import { CaseStudyLayout } from "@/components/case-study/case-study-layout";
+import { insomnia } from "@/content/insomnia";
+import { InsomniaCaseStudy } from "@/components/case-study/insomnia-case-study";
+
+function getCaseStudy(slug: string) {
+  if (slug === insomnia.slug) return insomnia;
+  return slug === study.slug ? study : getProject(slug);
+}
 
 export function generateStaticParams() {
-  return [...projects, study].map(({ slug }) => ({ slug }));
+  return [...projects, study, insomnia].map(({ slug }) => ({ slug }));
 }
 export async function generateMetadata({
   params,
@@ -14,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-  const project = slug === study.slug ? study : getProject(slug);
+  const project = getCaseStudy(slug);
   return project ? projectMetadata(project) : {};
 }
 export default async function WorkPage({
@@ -23,15 +30,17 @@ export default async function WorkPage({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-  const project = slug === study.slug ? study : getProject(slug);
+  const project = getCaseStudy(slug);
   if (!project) notFound();
   return (
     <>
-      {"sections" in project ? (
+      {"repository" in project && project.slug === insomnia.slug ? (
+        <InsomniaCaseStudy />
+      ) : "sections" in project ? (
         <CommercialCaseStudy />
-      ) : (
+      ) : "demo" in project ? (
         <CaseStudyLayout project={project} />
-      )}
+      ) : null}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

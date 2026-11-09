@@ -40,11 +40,11 @@ export function AboutSection() {
           <h3>Follow the data through the system.</h3>
           <p>
             In Insomnia-IT/feed, I extended API serializers and frontend types
-            together to combine warehouse and transfer records in a volunteer?s
+            together to combine warehouse and transfer records in a volunteer’s
             inventory history.
           </p>
-          <Link className="text-link" href="/#open-source">
-            Trace the review workflow →
+          <Link className="text-link" href="/work/insomnia-feeder#inventory">
+            Trace the inventory workflow →
           </Link>
         </article>
         <article>

@@ -26,7 +26,9 @@ export function CommercialCaseStudy() {
         <Link href="/#commercial-performance">
           Separate commercial performance results →
         </Link>
-        <Link href="/#open-source">Inspect public contributions →</Link>
+        <Link href="/work/insomnia-feeder">
+          Explore the Insomnia case study →
+        </Link>
       </nav>
     </main>
   );

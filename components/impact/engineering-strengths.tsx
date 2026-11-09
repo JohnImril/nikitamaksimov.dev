@@ -27,8 +27,8 @@ const strengths = [
     title: "System thinking",
     description:
       "Connect UI behavior to API contracts and business rules, with public contributions across React and Django.",
-    proof: "Open source changes",
-    href: "/#open-source",
+    proof: "Insomnia engineering case study",
+    href: "/work/insomnia-feeder",
   },
 ] as const;
 

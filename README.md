@@ -18,6 +18,12 @@ Live: https://www.nikitamaksimov.dev
 `content/profile.ts`, `content/experience.ts` and `content/projects.ts` hold the
 portfolio data. `app/page.tsx` composes the homepage from section components.
 `app/work/[slug]/page.tsx` generates project case studies from the validated data.
+Insomnia is a featured collaborative project with a dedicated server-rendered
+case study at `/work/insomnia-feeder`, separate from the personal-project demo
+schema. `content/insomnia.ts` holds its narrative and curated evidence;
+`components/case-study/insomnia-visuals.tsx` contains labeled, responsive workflow
+diagrams rather than production UI replicas. Research scope, evidence, and
+intentional limitations are recorded in [the research notes](docs/insomnia-research.md).
 The hero uses [Animated Displaced Sphere by Pavel Mazhuga / Codrops](https://github.com/pavel-mazhuga/codrops-tutorial-distorted-sphere-custom-material),
 from source commit `83bb3d2639460e4a5c478e23414356957968a8d8`. Its original
 vertex/fragment shaders, 200-subdivision icosahedron, finite-difference normals,

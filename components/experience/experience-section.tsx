@@ -24,7 +24,7 @@ export function ExperienceSection() {
         <div>
           <p>{study.summary}</p>
           <Link className="text-link" href={`/work/${study.slug}`}>
-            Read the decisions and trade-offs ?
+            Explore the engineering decisions →
           </Link>
         </div>
       </article>

@@ -12,7 +12,7 @@ Selected themes are inventory workflows, mobile delivery/rendering, toolchain mo
 
 Read axek/portfolio's src/components/projects/FeedCaseStudy.tsx, FeedShowcase.tsx, and src/data/projects/en.ts through GitHub. The hosted reference URL could not be fetched by the web tool; the corresponding source establishes its product-first hero, overview, captioned workflow showcase, deliverables, and stack structure. Adapted that storytelling hierarchy, not its styling, prose, UX deliverables, or ownership claims.
 
-No screenshot files were copied. No sanitized, verified production screenshot set was available in this task. The site uses original HTML/CSS diagrams explicitly labeled simplified product/workflow diagrams. They describe product operations, transfer state, data delivery, and kitchen result states; they are not simulated dashboards or production screenshots. No volunteer records, QR values, personal names, or contact details are displayed.
+The original diagram-only presentation has been replaced with nine final WebP assets from Feeder's `artifacts/portfolio-demo/screenshots/`. These show real application components using deterministic synthetic records; English labels are a capture-only presentation layer. Full-size links accompany the product images. No production volunteer data is published.
 
 ## Reviewed changes
 
@@ -59,7 +59,8 @@ No screenshot files were copied. No sanitized, verified production screenshot se
 - #1035 backend/feeder/views/volunteer.py: representation selected only for action=list and mobile=1; queryset.only limits volunteer columns, Prefetch selects arrival columns and orders arrivals. Detail serializer stays on its existing path.
 - #1035 mobile list adds mobile=1 to its resource; desktop content moves to a lazy module with Suspense; custom fields load only on desktop; filter lookups become enabled when visible or active; sidebar access-role lookup skips xs. nginx and asset-cache changes also exist, but the case focuses on the data/rendering boundary.
 - Important limit: mobile still uses useInfiniteList<VolEntity>, not a dedicated minimal TS interface. The page explicitly acknowledges the gap. Queryset changes do not establish a total query-count or payload-byte measurement.
-- Review includes informal local timing discussion. There is no controlled, reproducible production benchmark presented in the case. No percentage or millisecond result is published.
+- Review includes informal local timing discussion. The published measurements instead use the preserved controlled synthetic baseline in `portfolio-demo/metrics.json` under `api`: 50 identical records, five alternating measured runs after warm-up, DRF and in-memory SQLite. JSON is 63,489 / 17,220 B; gzip level 9 is 2,362 / 1,292 B; fields are 42 / 8; SQL queries are 264 / 65; median request plus JSON rendering is 45.5239 / 12.4636 ms. This compares two current representations, not historical revisions or production latency. Remaining inventory N+1 queries and the broader frontend type remain explicit.
+- Final portfolio audit re-read PRs #573, #782, #995, #1035 and #1159 and their discussion timelines. The ownership example uses [the cache-policy review](https://github.com/Insomnia-IT/feed/pull/1035#discussion_r3254882171), [the author's confirmation of a correction](https://github.com/Insomnia-IT/feed/pull/1035#discussion_r3255470187), and the merged nginx diff. Built assets have long-lived caching; HTML, registerSW.js and Workbox scripts use `no-cache` revalidation. The consequence described is the policy distinction, not proof that stale-client incidents were eliminated.
 
 ### Inventory operations
 
@@ -84,7 +85,7 @@ No screenshot files were copied. No sanitized, verified production screenshot se
 
 - #1176 and #1184 were not merged when checked. Excluded their sync/deletion/health/observability claims from shipped impact.
 - No claims to platform creation, original architecture, overall UX/design ownership, all scanner work, or the inventory backend as a whole.
-- No revenue, adoption, volunteer count, latency percentage, build-speed win, security guarantee, uptime, or controlled production performance measurement.
+- No revenue, adoption, production volunteer count, production latency percentage, build-speed win, security guarantee, uptime, or controlled production performance measurement.
 - The commercial TTI result and commercial content are unchanged. Only the commercial page's now-orphaned public-contributions navigation link changes.
 
 ## Full author-filtered discovery index

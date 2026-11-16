@@ -1,16 +1,45 @@
-import Link from "next/link";
-import {
-  insomnia,
-  insomniaReferences,
-  insomniaThemes,
-} from "@/content/insomnia";
+﻿import Link from "next/link";
+import { insomnia, insomniaReferences } from "@/content/insomnia";
 import { ExternalLink } from "@/components/shared/external-link";
-import {
-  InsomniaProductMap,
-  InventoryFlow,
-  MobileDelivery,
-  KitchenFlow,
-} from "./insomnia-visuals";
+import { FeederHero, ProductShot } from "./insomnia-images";
+
+const metrics = [
+  {
+    label: "JSON response",
+    standard: "63,489 B",
+    mobile: "17,220 B",
+    ratio: 17220 / 63489,
+    difference: "72.9% smaller",
+  },
+  {
+    label: "Gzip level 9",
+    standard: "2,362 B",
+    mobile: "1,292 B",
+    ratio: 1292 / 2362,
+    difference: "45.3% smaller",
+  },
+  {
+    label: "Fields per record",
+    standard: "42",
+    mobile: "8",
+    ratio: 8 / 42,
+    difference: "A narrower data contract",
+  },
+  {
+    label: "SQL queries",
+    standard: "264",
+    mobile: "65",
+    ratio: 65 / 264,
+    difference: "75.4% fewer",
+  },
+  {
+    label: "Median request + render",
+    standard: "45.52 ms",
+    mobile: "12.46 ms",
+    ratio: 12.4636 / 45.5239,
+    difference: "≈72.6% lower locally",
+  },
+];
 
 export function InsomniaCaseStudy() {
   return (
@@ -19,272 +48,333 @@ export function InsomniaCaseStudy() {
         <Link className="back-link" href="/#work">
           ← Selected work
         </Link>
-        <p className="eyebrow">Collaborative engineering / Feeder</p>
+        <p className="eyebrow">Collaborative engineering / Volunteer project</p>
         <h1>{insomnia.title}</h1>
         <p className="case-intro">{insomnia.summary}</p>
         <dl className="case-summary">
           <dt>My role</dt>
           <dd>{insomnia.role}</dd>
-          <dt>Contribution period</dt>
+          <dt>Period</dt>
           <dd>{insomnia.period}</dd>
-          <dt>Core stack</dt>
-          <dd>React · TypeScript · Django REST Framework · Vite</dd>
+          <dt>Stack</dt>
+          <dd>React / TypeScript / Django / Vite</dd>
         </dl>
-        <p className="case-scope">
-          An existing open-source platform developed with the Insomnia-IT team.
-          My work extends the application and its tooling; the product, design,
-          and original architecture are shared team work.
-        </p>
       </header>
-      <InsomniaProductMap />
+      <a
+        className="feeder-hero-link"
+        href="/projects/insomnia-feeder/hero-composition.webp"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Open full-size product composition (new tab)"
+      >
+        <FeederHero priority />
+        <span className="feeder-open">View full size ↗</span>
+      </a>
+      <p className="feeder-capture-note">
+        Real application interfaces with deterministic synthetic records.
+        English labels are a capture-only presentation layer.
+      </p>
       <nav className="feeder-contents" aria-label="In this case study">
-        <a href="#context">01 Context</a>
-        <a href="#contribution">02 Contribution</a>
-        <a href="#decisions">03 Decisions</a>
-        <a href="#showcase">04 Workflows</a>
-        <a href="#results">05 Impact</a>
-        <a href="#collaboration">06 Collaboration</a>
+        <a href="#product">01 Product</a>
+        <a href="#mobile">02 Mobile + API</a>
+        <a href="#inventory">03 Inventory</a>
+        <a href="#scanner">04 Scanner</a>
+        <a href="#modernization">05 Platform</a>
+        <a href="#collaboration">06 Ownership</a>
       </nav>
 
       <section
-        className="case-section case-context"
-        id="context"
-        aria-labelledby="context-title"
-      >
-        <div>
-          <p className="eyebrow">01 / Product context</p>
-          <h2 id="context-title">
-            Software for the people running the festival.
-          </h2>
-          <p>
-            Feeder supports Insomnia Festival’s volunteer operations: who is
-            arriving, which service they belong to, where they eat, and what
-            equipment they hold. Coordinators manage individual volunteers and
-            group badges; kitchen operators use a field scanner to check badges
-            and record meals.
-          </p>
-          <p>
-            This work happened inside a running, collaborative codebase. Changes
-            had to fit existing records, coordinator roles, and deployment
-            workflows while the admin and scanner continued to serve different
-            operating needs.
-          </p>
-        </div>
-        <aside className="case-note">
-          <h3>Two clients, shared operational data</h3>
-          <p>
-            <strong>Administrative application.</strong> React, Refine, and Ant
-            Design for volunteer coordination, meals, groups, and inventory.
-          </p>
-          <p>
-            <strong>Field scanner / PWA.</strong> React with Dexie-backed local
-            data for badge-based meal operations.
-          </p>
-          <p>
-            <strong>Django backend.</strong> REST endpoints, serializers,
-            business rules, and shared volunteer, meal, and stock records.
-          </p>
-        </aside>
-      </section>
-
-      <section
         className="case-section"
-        id="contribution"
-        aria-labelledby="contribution-title"
+        id="product"
+        aria-labelledby="product-title"
       >
-        <p className="eyebrow">02 / My engineering contribution</p>
-        <h2 id="contribution-title">Four connected areas of responsibility.</h2>
-        <div className="feeder-initiatives">
-          {insomniaThemes.map((theme, index) => (
-            <article key={theme.id} id={theme.id} className="feeder-initiative">
-              <div>
-                <p className="eyebrow">
-                  0{index + 1} / {theme.label}
-                </p>
-                <h3>{theme.title}</h3>
-              </div>
-              <div>
-                <p>{theme.problem}</p>
-                <p>{theme.contribution}</p>
-                <p>{theme.decision}</p>
-                <p className="feeder-outcome">
-                  <strong>Practical result.</strong> {theme.result}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section
-        className="case-section"
-        id="decisions"
-        aria-labelledby="decisions-title"
-      >
-        <p className="eyebrow">03 / Engineering decisions</p>
-        <h2 id="decisions-title">
-          Choose boundaries that remove unnecessary work.
-        </h2>
-        <article className="feeder-decision">
-          <div>
-            <h3>Separate data requirements, not just layouts.</h3>
-            <p>
-              Hiding desktop columns would still deliver the general response. I
-              selected the smaller serializer only for list requests with{" "}
-              <code>mobile=1</code>, paired it with field selection and an
-              arrival prefetch, and kept the existing detail path.
-            </p>
-            <p>
-              <strong>Trade-off:</strong> two list representations must stay
-              aligned with their consumers. The frontend still uses the broader{" "}
-              <code>VolEntity</code> type in this change, so the mobile
-              serializer is not a separately enforced TypeScript contract.
-            </p>
-          </div>
-          <div className="feeder-code">
-            <span>Django · excerpt from the mobile list change</span>
-            <pre>
-              <code>{`def is_mobile_list_request(self):
-    return self.action == 'list' and \\
-        self.request.query_params.get('mobile') == '1'
-
-def get_serializer_class(self):
-    if self.is_mobile_list_request():
-        return serializers.VolunteerMobileListSerializer
-    return super().get_serializer_class()`}</code>
-            </pre>
-            <a className="text-link" href="#evidence-1035">
-              Inspect the mobile implementation ↓
-            </a>
-          </div>
-        </article>
-        <article className="feeder-decision">
-          <div>
-            <h3>Make the build sequence explicit.</h3>
-            <p>
-              After updating the shared toolchain and moving the scanner to
-              Vite, I replaced Lerna build orchestration with direct workspace
-              commands. App-specific dev and preview commands stayed available;
-              TypeScript project references continued to cover both
-              applications.
-            </p>
-            <p>
-              <strong>Trade-off:</strong> removing Nx also removes its
-              configured build cache and affected-build command. The new
-              sequence is easier to inspect, but I do not present that
-              simplification as a measured build-speed win.
-            </p>
-          </div>
-          <div className="feeder-code">
-            <span>Root scripts · excerpt from the orchestration change</span>
-            <pre>
-              <code>{`"build": "npm-run-all -s build:admin build:scanner",
-"build:admin": "npm --workspace @feed/admin run build",
-"build:scanner": "npm --workspace @feed/scanner run build"`}</code>
-            </pre>
-            <a className="text-link" href="#evidence-995">
-              Inspect the build change ↓
-            </a>
-          </div>
-        </article>
-        <article className="feeder-decision">
-          <div>
-            <h3>Unify the history without conflating its events.</h3>
-            <p>
-              I extended Django serializers with warehouse names and matched
-              those fields in frontend interfaces. A discriminated union
-              preserves whether each row is an issue, return, or transfer.
-              Transfers are deduplicated by ID; prefixed row keys prevent
-              collisions between different event types.
-            </p>
-            <p>
-              <strong>Trade-off:</strong> composition stays in React and reuses
-              existing endpoints, at the cost of four queries and client-side
-              sorting. This change loads the histories without server
-              pagination; it is not an unlimited-scale audit architecture.
-            </p>
-          </div>
-          <div className="feeder-code">
-            <span>React / TypeScript · excerpt from history normalization</span>
-            <pre>
-              <code>{`items.map((item) => ({
-    ...item,
-    historyType,
-    rowKey: \`\${historyType}-\${item.id}\`
-}))`}</code>
-            </pre>
-            <a className="text-link" href="#evidence-1183">
-              Inspect the history implementation ↓
-            </a>
-          </div>
-        </article>
-      </section>
-
-      <section
-        className="case-section"
-        id="showcase"
-        aria-labelledby="showcase-title"
-      >
-        <p className="eyebrow">04 / Product workflows</p>
-        <h2 id="showcase-title">
-          Follow the operator’s task through the system.
+        <p className="eyebrow">01 / The product</p>
+        <h2 id="product-title">
+          Software for the people running the festival.
         </h2>
         <p>
-          These simplified diagrams explain the implemented workflows. They are
-          not production screenshots and contain no volunteer records.
+          An existing open-source platform developed with the Insomnia-IT team.
+          Feeder connects volunteer administration and arrival coordination with
+          equipment custody, group badges, and meal management. A separate field
+          scanner / PWA supports kitchen operations.
         </p>
-        <div className="feeder-showcase-item">
-          <h3>Inventory: from a profile to a recorded movement</h3>
-          <InventoryFlow />
+        <ProductShot
+          name="volunteer-admin"
+          width={1600}
+          height={1000}
+          alt="Volunteer administration table with arrival statuses, filters, kitchen assignments and equipment"
+          caption="The coordinator’s workspace: people, arrivals, kitchens, and equipment in one operational view. All 72 volunteers shown in the demo are synthetic."
+        />
+      </section>
+
+      <section
+        className="case-section"
+        id="mobile"
+        aria-labelledby="mobile-title"
+      >
+        <p className="eyebrow">02 / Mobile performance and API design</p>
+        <h2 id="mobile-title">
+          A smaller screen needs a smaller data contract.
+        </h2>
+        <div className="feeder-mobile-story">
+          <div>
+            <p>
+              The compact volunteer list was paying for the desktop
+              representation. I worked on both sides of that boundary: what
+              React initializes and what Django returns.
+            </p>
+            <h3>React: load the working view</h3>
+            <p>
+              The mobile list uses infinite loading in batches of 50. Desktop
+              content is lazy-loaded; custom fields stay on desktop, and filter
+              lookups run when visible or active. Memoized cards reduce repeated
+              rendering work.
+            </p>
+            <h3>Django: shape the response for the task</h3>
+            <p>
+              A dedicated serializer is selected for <code>mobile=1</code> list
+              requests. Selected model fields and prefetched arrivals narrow the
+              work while preserving the existing detail endpoint.
+            </p>
+            <p className="feeder-takeaway">
+              The dedicated mobile endpoint returns a significantly smaller data
+              representation under a controlled synthetic workload.
+            </p>
+          </div>
+          <ProductShot
+            name="mobile-volunteers"
+            width={390}
+            height={844}
+            phone
+            alt="Mobile volunteer cards with arrival status, coordinator notes and inventory summaries"
+            caption="The actual mobile list: arrival actions and equipment summaries without the desktop table."
+          />
         </div>
-        <div className="feeder-showcase-item">
-          <h3>Volunteer management: different needs on desktop and mobile</h3>
-          <MobileDelivery />
-        </div>
-        <div className="feeder-showcase-item">
-          <h3>Group badges: carry kitchen assignment into field scanning</h3>
-          <KitchenFlow />
+        <div
+          className="feeder-benchmark"
+          aria-label="Standard and mobile API comparison"
+        >
+          <div className="feeder-benchmark-heading">
+            <h3>Same 50 records. Two current API representations.</h3>
+            <p>
+              Local synthetic benchmark · 50 records · DRF + in-memory SQLite ·
+              5 measured runs after warm-up. Not production latency.
+            </p>
+          </div>
+          <div className="feeder-metrics">
+            {metrics.map((metric) => (
+              <div className="feeder-metric" key={metric.label}>
+                <div className="feeder-metric-title">
+                  <h4>{metric.label}</h4>
+                  <span>{metric.difference}</span>
+                </div>
+                <div className="feeder-bar-row">
+                  <span>Standard API</span>
+                  <strong>{metric.standard}</strong>
+                  <i aria-hidden="true" className="feeder-bar standard" />
+                </div>
+                <div className="feeder-bar-row">
+                  <span>Mobile API</span>
+                  <strong>{metric.mobile}</strong>
+                  <i
+                    aria-hidden="true"
+                    className="feeder-bar mobile"
+                    style={{ width: `${metric.ratio * 100}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="feeder-benchmark-limit">
+            Request + render includes SQL, serialization and JSON rendering; it
+            excludes network latency. Inventory lookups still produce N+1
+            queries. This compares current endpoints, not production performance
+            before and after a PR.
+          </p>
+          <details>
+            <summary>Measurement method and remaining boundaries</summary>
+            <p>
+              Reported timings use the preserved baseline in metrics.json → api:
+              medians of five alternating-order runs after one discarded warm-up
+              per variant. Both responses contain the same ordered IDs and
+              matching shared fields. SQL counts include pagination; gzip uses
+              level 9 and fixed mtime. Setup and authentication are outside the
+              timer.
+            </p>
+            <p>
+              The latest rerun recorded 45.58 / 12.66 ms with identical payload,
+              field and query counts. Timing variance is expected. The mobile
+              React hook still uses the broader VolEntity type; the compact
+              response is not yet enforced by a separate TypeScript interface.
+            </p>
+          </details>
         </div>
       </section>
 
       <section
         className="case-section"
-        id="results"
-        aria-labelledby="results-title"
+        id="inventory"
+        aria-labelledby="inventory-title"
       >
-        <p className="eyebrow">05 / Results and engineering impact</p>
-        <h2 id="results-title">Concrete changes to how the platform works.</h2>
-        <dl className="feeder-results">
-          <dt>A shared frontend build path</dt>
-          <dd>
-            Admin and scanner use Vite, with npm workspaces and direct build
-            commands instead of Lerna/Nx orchestration.
-          </dd>
-          <dt>More targeted mobile delivery</dt>
-          <dd>
-            A dedicated list serializer, selected model fields, prefetched
-            arrivals, deferred desktop UI, and conditional lookup requests
-            reduce unnecessary work.
-          </dd>
-          <dt>A connected equipment workflow</dt>
-          <dd>
-            Volunteer profiles expose stock and transfers; history includes
-            warehouse issues, returns, and person-to-person movements with actor
-            information.
-          </dd>
-          <dt>Rules represented across the stack</dt>
-          <dd>
-            Supervisor candidate filtering and write validation accompany the
-            frontend controls; group-badge kitchen assignment reaches the
-            scanner’s result states.
-          </dd>
-        </dl>
+        <p className="eyebrow">03 / Inventory workflows across the stack</p>
+        <h2 id="inventory-title">Follow equipment from custody to history.</h2>
         <p>
-          No controlled production before/after benchmark is presented here. The
-          outcomes describe merged code and supported workflows, without
-          attributing adoption, uptime, or festival-wide results to these
-          changes.
+          I connected existing stock APIs to volunteer profiles, built the
+          transfer flow, and extended Django serializers and TypeScript types so
+          equipment movements could be understood in context.
         </p>
+        <div className="feeder-workflow-step">
+          <h3>01 — See what a volunteer holds</h3>
+          <p>
+            API integration joins inventory with item details. Dedicated hooks
+            expose loading, empty-stock and error states alongside quantities,
+            stores and bins.
+          </p>
+          <ProductShot
+            name="volunteer-inventory"
+            width={1440}
+            height={620}
+            alt="Alex Reed’s inventory showing radios, headsets, battery, vest and flashlight with quantities and storage locations"
+            caption="Equipment custody belongs in the volunteer’s profile, close to the coordinator’s next action."
+          />
+        </div>
+        <div className="feeder-workflow-step">
+          <h3>02 — Transfer with dependent form state</h3>
+          <p>
+            Changing the source clears the item and quantity; changing the item
+            resets the quantity. Validation rejects self-transfers and amounts
+            beyond the holder’s balance. A successful mutation refreshes both
+            inventories; a failed request surfaces an error.
+          </p>
+          <ProductShot
+            name="inventory-transfer"
+            width={1440}
+            height={760}
+            alt="Filled inventory transfer form moving one radio from Falcon to Maple"
+            caption="The real transfer form before submission. A separate synthetic scenario verifies the submitted request and updated balances."
+          />
+        </div>
+        <div className="feeder-workflow-step">
+          <h3>03 — Reconcile the operational history</h3>
+          <p>
+            Issues, returns and transfers become one chronological view.
+            Matching API fields and typed event variants preserve each
+            operation’s meaning; transfer IDs are deduplicated and prefixed row
+            keys avoid collisions.
+          </p>
+          <ProductShot
+            name="inventory-history"
+            width={1600}
+            height={720}
+            alt="Unified inventory history with seven issues, returns and transfers, including actors and locations"
+            caption="Seven synthetic events reconcile with current custody, with people and warehouse context attached."
+          />
+        </div>
+        <details>
+          <summary>Integration trade-offs</summary>
+          <p>
+            History combines four existing queries and sorts on the client
+            without server pagination. Inventory detail loading also makes
+            requests per position. These changes make the workflow coherent;
+            they do not introduce a bulk inventory API or an unlimited-scale
+            audit log.
+          </p>
+        </details>
+      </section>
+
+      <section
+        className="case-section"
+        id="scanner"
+        aria-labelledby="scanner-title"
+      >
+        <p className="eyebrow">04 / Field scanner and business rules</p>
+        <h2 id="scanner-title">
+          Make operational rules visible at the point of use.
+        </h2>
+        <p>
+          I carried group-badge kitchen assignment into the scanner,
+          distinguishing an unassigned kitchen from a mismatched one before the
+          existing feeding validation flow. Eligible members and blocked states
+          remain visible to the operator.
+        </p>
+        <div className="feeder-scanner-pair">
+          <ProductShot
+            name="field-scanner"
+            width={390}
+            height={844}
+            phone
+            alt="Group badge scanner with five eligible members, two vegan meals, three standard meals and one ineligible member"
+            caption="Group badge resolved: five eligible members, one flagged member, and the existing meal confirmation flow."
+          />
+          <ProductShot
+            name="field-scanner-validation"
+            width={390}
+            height={844}
+            phone
+            alt="Scanner rejecting a group badge assigned to kitchen one when scanned at kitchen two"
+            caption="Wrong kitchen: a distinct rejection state prevents continuing through the normal feeding UI."
+          />
+        </div>
+        <p className="feeder-capture-note">
+          The existing scanner stores volunteers, badges and transactions
+          locally in Dexie / IndexedDB. These captures inject a synthetic
+          hardware-scan event into that workflow; they demonstrate post-scan
+          behavior, not optical QR recognition or a tested offline reliability
+          guarantee.
+        </p>
+      </section>
+
+      <section
+        className="case-section"
+        id="modernization"
+        aria-labelledby="modernization-title"
+      >
+        <p className="eyebrow">05 / Platform modernization</p>
+        <h2 id="modernization-title">Make the build path explicit.</h2>
+        <p>
+          I migrated the scanner from CRA / CRACO to Vite, modernized the
+          admin’s existing Vite setup, and updated shared developer tooling.
+          Then I replaced Lerna / Nx orchestration with direct npm workspace
+          commands.
+        </p>
+        <div className="feeder-tooling">
+          <div>
+            <span className="eyebrow">Previously</span>
+            <h3>
+              Separate app toolchains
+              <br />
+              Lerna / Nx task orchestration
+            </h3>
+          </div>
+          <span aria-hidden="true">→</span>
+          <div>
+            <span className="eyebrow">Now</span>
+            <h3>
+              Vite for admin + scanner
+              <br />
+              npm workspaces · explicit build sequence
+            </h3>
+          </div>
+        </div>
+        <div className="case-columns">
+          <div>
+            <h3>Preserve the delivery contract</h3>
+            <p>
+              The scanner’s base path, PWA manifest and API configuration still
+              had to work with container delivery. Shared linting, staged-file
+              checks and TypeScript references support development across both
+              apps.
+            </p>
+          </div>
+          <div>
+            <h3>Choose the trade-off deliberately</h3>
+            <p>
+              Direct scripts are easier to trace, but removing Nx also removes
+              its configured build cache and affected-build commands. No
+              verified historical build-speed percentage is claimed.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section
@@ -292,60 +382,46 @@ def get_serializer_class(self):
         id="collaboration"
         aria-labelledby="collaboration-title"
       >
-        <p className="eyebrow">06 / Technology and collaboration</p>
-        <h2 id="collaboration-title">Frontend depth inside a shared system.</h2>
-        <div className="case-columns">
-          <div>
-            <p>
-              React and TypeScript express the admin workflows, with Refine and
-              TanStack Query handling API integration. Django REST Framework
-              supplies data representations and server-side validation. The
-              scanner combines React, PWA tooling, and Dexie local storage; Vite
-              builds both clients.
-            </p>
-            <p>
-              My primary role was frontend engineering, with targeted Django
-              changes where the workflow required a different API contract or
-              business rule. I contributed as JohnImril, working through the
-              team’s pull requests and review process.
-            </p>
-          </div>
-          <aside className="case-note">
-            <h3>Modernization through collaboration</h3>
-            <p>
-              Tooling review included discussion of Husky hooks, workspace
-              dependencies, and the scanner’s version file. The team confirmed
-              version generation already belonged to the Docker build, allowing
-              the obsolete commit-hook behavior to be removed. I kept broader
-              style-rule changes out of that migration and recorded follow-up
-              work.
-            </p>
-            <p>
-              I did not create the platform alone, own the complete backend, or
-              design all the interfaces shown by other contributors.
-            </p>
-          </aside>
-        </div>
+        <p className="eyebrow">06 / Engineering ownership and collaboration</p>
+        <h2 id="collaboration-title">
+          Frontend ownership across system boundaries.
+        </h2>
+        <p>
+          My work connected React interactions to data contracts, targeted
+          Django validation, and application delivery. As JohnImril, I
+          contributed through the team’s pull requests and review process,
+          working within existing coordinator roles, stock endpoints and scanner
+          state.
+        </p>
+        <p>
+          Review shaped the modernization: the scanner version was already
+          generated in Docker, so obsolete commit-hook behavior could be
+          removed. Broader style-rule changes stayed in follow-up work. The
+          result is a set of integrated changes that teammates can inspect and
+          extend.
+        </p>
         <div className="feeder-evidence">
-          <h3>Optional implementation evidence</h3>
           <ExternalLink className="text-link" href={insomnia.repository}>
-            Explore the shared source repository ↗
+            Explore Feeder on GitHub ↗
           </ExternalLink>
-          <ul>
-            {insomniaReferences.map((reference) => (
-              <li key={reference.number} id={`evidence-${reference.number}`}>
-                <ExternalLink
-                  className="text-link"
-                  href={`${insomnia.repository}/pull/${reference.number}`}
-                >
-                  {reference.title}{" "}
-                  <span className="feeder-reference-number">
-                    #{reference.number}
-                  </span>
-                </ExternalLink>
-              </li>
-            ))}
-          </ul>
+          <details>
+            <summary>Selected implementation evidence</summary>
+            <ul>
+              {insomniaReferences.map((reference) => (
+                <li key={reference.number} id={`evidence-${reference.number}`}>
+                  <ExternalLink
+                    className="text-link"
+                    href={`${insomnia.repository}/pull/${reference.number}`}
+                  >
+                    {reference.title}{" "}
+                    <span className="feeder-reference-number">
+                      #{reference.number}
+                    </span>
+                  </ExternalLink>
+                </li>
+              ))}
+            </ul>
+          </details>
         </div>
       </section>
       <nav className="case-navigation" aria-label="Continue exploring">

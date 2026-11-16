@@ -1347,7 +1347,7 @@ details[open] summary {
   }
 }
 
-/* Collaborative Feeder case: diagrams and narrative are server-rendered. */
+/* Collaborative Feeder case: product images and narrative are server-rendered. */
 .feeder-feature {
   display: grid;
   grid-template-columns: 1.35fr 1fr;

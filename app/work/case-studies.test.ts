@@ -61,7 +61,25 @@ describe("commercial case integration", () => {
         absoluteUrl(`/work/${entry.slug}`),
       );
       expect(metadata.openGraph?.title).toContain(entry.title);
-      expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
+      const image = absoluteUrl(
+        "socialImage" in entry ? entry.socialImage : "/opengraph-image",
+      );
+      expect(metadata.title).toContain(entry.title);
+      expect(metadata.description).toBe(
+        `${entry.positioning}. ${entry.summary}`,
+      );
+      expect(metadata.openGraph).toMatchObject({
+        url: absoluteUrl(`/work/${entry.slug}`),
+        type: "article",
+        images: [{ url: image }],
+        description: metadata.description,
+      });
+      expect(metadata.twitter).toMatchObject({
+        card: "summary_large_image",
+        title: metadata.title,
+        description: metadata.description,
+        images: [image],
+      });
     }
     expect(
       await generateMetadata({ params: Promise.resolve({ slug: "unknown" }) }),

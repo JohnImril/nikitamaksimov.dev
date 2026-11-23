@@ -33,7 +33,7 @@ const metrics = [
     difference: "75.4% fewer",
   },
   {
-    label: "Median request + render",
+    label: "Median request + JSON render",
     standard: "45.52 ms",
     mobile: "12.46 ms",
     ratio: 12.4636 / 45.5239,
@@ -155,10 +155,14 @@ export function InsomniaCaseStudy() {
           aria-label="Standard and mobile API comparison"
         >
           <div className="feeder-benchmark-heading">
-            <h3>Same 50 records. Two current API representations.</h3>
+            <h3>Standard vs Mobile API — Controlled Local Benchmark</h3>
             <p>
-              Local synthetic benchmark · 50 records · DRF + in-memory SQLite ·
-              5 measured runs after warm-up. Not production latency.
+              Same 50 synthetic records · Django REST Framework · In-memory
+              SQLite · Five measured runs after warm-up.
+            </p>
+            <p>
+              Two current API representations, measured locally. Not production
+              latency or a historical before/after comparison.
             </p>
           </div>
           <div className="feeder-metrics">
@@ -186,10 +190,10 @@ export function InsomniaCaseStudy() {
             ))}
           </div>
           <p className="feeder-benchmark-limit">
-            Request + render includes SQL, serialization and JSON rendering; it
-            excludes network latency. Inventory lookups still produce N+1
-            queries. This compares current endpoints, not production performance
-            before and after a PR.
+            Request + JSON render includes SQL, serialization and JSON
+            rendering; it excludes network latency. Inventory lookups still
+            produce N+1 queries. This compares current endpoints, not production
+            performance before and after a PR.
           </p>
           <details>
             <summary>Measurement method and remaining boundaries</summary>
@@ -394,15 +398,22 @@ export function InsomniaCaseStudy() {
           state.
         </p>
         <p>
-          Review shaped the modernization: the scanner version was already
-          generated in Docker, so obsolete commit-hook behavior could be
-          removed. Broader style-rule changes stayed in follow-up work. The
-          result is a set of integrated changes that teammates can inspect and
-          extend.
+          In the mobile-loading PR, review exposed a deployment risk: long-lived
+          caching could leave users on outdated resources after an update. I
+          revised the cache policy: built assets retain long-lived caching,
+          while HTML, service-worker registration and Workbox scripts require
+          revalidation. This keeps the delivery optimization without applying
+          the same cache lifetime to update-sensitive entry points.
         </p>
+        <ExternalLink
+          className="text-link"
+          href="https://github.com/Insomnia-IT/feed/pull/1035#discussion_r3254882171"
+        >
+          Read the cache-policy review
+        </ExternalLink>
         <div className="feeder-evidence">
           <ExternalLink className="text-link" href={insomnia.repository}>
-            Explore Feeder on GitHub ↗
+            Explore Feeder on GitHub
           </ExternalLink>
           <details>
             <summary>Selected implementation evidence</summary>

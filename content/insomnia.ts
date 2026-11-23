@@ -6,7 +6,7 @@ export const insomnia = {
     "Evolving a volunteer operations platform across administration, inventory, field scanning, and frontend infrastructure.",
   role: "Frontend Engineer / Cross-stack Contributor",
   period: "October 2024 – Present",
-  socialImage: "/projects/insomnia-feeder/hero-composition.webp",
+  socialImage: "/projects/insomnia-feeder/hero-admin-mobile.webp",
   repository: "https://github.com/Insomnia-IT/feed",
 } as const;
 

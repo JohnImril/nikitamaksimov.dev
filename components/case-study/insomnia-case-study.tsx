@@ -62,7 +62,7 @@ export function InsomniaCaseStudy() {
       </header>
       <a
         className="feeder-hero-link"
-        href="/projects/insomnia-feeder/hero-composition.webp"
+        href="/projects/insomnia-feeder/hero-admin-mobile.webp"
         target="_blank"
         rel="noreferrer"
         aria-label="Open full-size product composition (new tab)"

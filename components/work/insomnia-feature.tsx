@@ -5,7 +5,12 @@ import { FeederHero } from "@/components/case-study/insomnia-images";
 export function InsomniaFeature() {
   return (
     <article className="feeder-feature" data-project={insomnia.slug}>
-      <FeederHero />
+      <Link
+        href={`/work/${insomnia.slug}`}
+        aria-label="Explore Insomnia Feeder screenshots and case study"
+      >
+        <FeederHero />
+      </Link>
       <div className="feeder-feature-content">
         <p className="eyebrow">Collaborative engineering / Volunteer project</p>
         <h3>{insomnia.title}</h3>

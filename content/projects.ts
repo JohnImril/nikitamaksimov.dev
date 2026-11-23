@@ -41,6 +41,8 @@ const projectSchema = z.object({
   stack: z.array(z.string()).min(2),
   result: z.string().min(1),
   image: z.string().startsWith("/"),
+  imageFull: z.string().startsWith("/").optional(),
+  imageCaption: z.string().optional(),
   imageAlt: z.string().min(10),
   repository: z.string().url(),
   demo: z.string().url(),
@@ -89,9 +91,11 @@ const projectData = [
     stack: ["Next.js", "TypeScript", "Zod", "GitHub App", "Vitest", "CI"],
     result:
       "One review contract for the UI, API and GitHub webhook, with provider output validated before rendering.",
-    image: "/projects/reviewpilot-ai/dashboard.webp",
+    image: "/projects/reviewpilot-ai/review-preview.webp",
+    imageFull: "/projects/reviewpilot-ai/review-result.webp",
+    imageCaption: "Example diff + deterministic mock review",
     imageAlt:
-      "ReviewPilot AI dashboard showing a structured pull request risk analysis",
+      "TypeScript diff beside a completed mock review, Needs changes recommendation and medium risk score of 54/100",
     repository: "https://github.com/JohnImril/reviewpilot-ai",
     demo: "https://reviewpilot-ai-lime.vercel.app",
     clusters: ["ai"],
@@ -186,9 +190,10 @@ const projectData = [
     ],
     result:
       "Typed runtime APIs, enforced import boundaries and explicit save-storage ownership.",
-    image: "/projects/diablo-web/game.webp",
+    image: "/projects/diablo-web/gameplay.webp",
+    imageCaption: "Gameplay in the browser · upstream engine and assets",
     imageAlt:
-      "Diablo Web browser runtime displaying the game canvas and interface",
+      "Diablo Web gameplay in town with the player, townspeople and the complete health, mana and action panel",
     repository: "https://github.com/JohnImril/diablo_web",
     demo: "https://johnimril.github.io/diablo_web/",
     clusters: ["architecture", "realtime"],
@@ -284,9 +289,11 @@ const projectData = [
     ],
     result:
       "A shared simulation state keeps route progress, ETA, risk and alerts synchronized across map and dashboard.",
-    image: "/projects/fleet-route-monitor/dashboard.webp",
+    image: "/projects/fleet-route-monitor/route-preview.webp",
+    imageFull: "/projects/fleet-route-monitor/route-detail.webp",
+    imageCaption: "Paused simulation · Rush hour · selected TRK-19",
     imageAlt:
-      "Fleet Route Monitor dashboard with a route map, vehicle progress and operational alerts",
+      "Paused Fleet Route Monitor simulation with TRK-19 selected, its delayed route, risk warning, activity feed and map",
     repository: "https://github.com/JohnImril/leaflet-route",
     demo: "https://johnimril.github.io/leaflet-route/",
     clusters: ["realtime"],
@@ -393,7 +400,8 @@ const projectData = [
     stack: ["Svelte", "TypeScript", "Vite", "Lighthouse", "Bundle analysis"],
     result:
       "JavaScript −74%; Lighthouse Performance 75 → 92 in the recorded run. Full build time increased by 0.529 s.",
-    image: "/projects/forest/gallery.webp",
+    image: "/projects/forest/season-preview.webp",
+    imageFull: "/projects/forest/gallery.webp",
     imageAlt:
       "Forest seasonal scene used for the measured React-to-Svelte migration experiment",
     repository: "https://github.com/JohnImril/forest",

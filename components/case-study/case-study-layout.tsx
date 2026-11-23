@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ProjectPreview } from "@/components/work/project-preview";
 import Link from "next/link";
 import { projects, type Project } from "@/content/projects";
 import { profile } from "@/content/profile";
@@ -48,14 +48,7 @@ export function CaseStudyLayout({ project }: { project: Project }) {
           ))}
         </ul>
       </header>
-      <div className="case-image" data-project={project.slug}>
-        <Image
-          src={project.image}
-          alt={project.imageAlt}
-          fill
-          sizes="(max-width: 1500px) 100vw, 1444px"
-        />
-      </div>
+      <ProjectPreview project={project} detail />
       <section
         className="case-section case-context"
         aria-labelledby="challenge-title"

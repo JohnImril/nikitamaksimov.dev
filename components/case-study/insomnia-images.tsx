@@ -1,34 +1,18 @@
-﻿import Image, { getImageProps } from "next/image";
+﻿import Image from "next/image";
 const root = "/projects/insomnia-feeder/";
 
 export function FeederHero({ priority = false }: { priority?: boolean }) {
-  const { props: mobile } = getImageProps({
-    src: `${root}hero-mobile.webp`,
-    alt: "",
-    width: 430,
-    height: 884,
-    sizes: "100vw",
-  });
-  const { props: desktop } = getImageProps({
-    src: `${root}hero-composition.webp`,
-    alt: "Feeder volunteer administration with arrival statuses and inventory, alongside the group-badge field scanner",
-    width: 1440,
-    height: 920,
-    sizes: "(max-width: 800px) 100vw, 1200px",
-    loading: priority ? "eager" : "lazy",
-    fetchPriority: priority ? "high" : "auto",
-  });
   return (
-    <picture className="feeder-hero-image">
-      <source
-        media="(max-width: 480px)"
-        srcSet={mobile.srcSet}
-        sizes={mobile.sizes}
-        width={430}
-        height={884}
+    <div className="feeder-hero-image">
+      <Image
+        src={root + "hero-admin-mobile.webp"}
+        alt="Feeder desktop volunteer administration and mobile volunteer cards shown side by side, using prepared synthetic records"
+        width={1600}
+        height={900}
+        sizes="(max-width: 1000px) 100vw, 1200px"
+        loading={priority ? "eager" : "lazy"}
       />
-      <img {...desktop} alt={desktop.alt} />
-    </picture>
+    </div>
   );
 }
 

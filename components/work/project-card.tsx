@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ProjectPreview } from "./project-preview";
 import Link from "next/link";
 import type { Project } from "@/content/projects";
 import { ProjectLinks } from "./project-links";
@@ -12,14 +12,7 @@ export function ProjectCard({
 }) {
   return (
     <article className="project-card" data-project={project.slug}>
-      <div className="project-image">
-        <Image
-          src={project.image}
-          alt={project.imageAlt}
-          fill
-          sizes="(max-width: 760px) 100vw, (max-width: 1500px) 50vw, 720px"
-        />
-      </div>
+      <ProjectPreview project={project} />
       <div className="project-content">
         <p className="eyebrow">
           0{index + 1} / {project.kind}
